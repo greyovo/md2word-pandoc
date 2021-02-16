@@ -456,6 +456,7 @@
             this.italicCheckBox.TabIndex = 6;
             this.italicCheckBox.Text = "I ";
             this.italicCheckBox.UseVisualStyleBackColor = true;
+            this.italicCheckBox.CheckedChanged += new System.EventHandler(this.ItalicCheckBox_CheckedChanged);
             // 
             // numericOutlevel
             // 
@@ -479,6 +480,7 @@
             0,
             0,
             -2147483648});
+            this.numericOutlevel.ValueChanged += new System.EventHandler(this.NumericOutlevel_ValueChanged);
             // 
             // fontsSelComboBox
             // 
@@ -488,6 +490,7 @@
             this.fontsSelComboBox.Name = "fontsSelComboBox";
             this.fontsSelComboBox.Size = new System.Drawing.Size(141, 32);
             this.fontsSelComboBox.TabIndex = 2;
+            this.fontsSelComboBox.SelectedIndexChanged += new System.EventHandler(this.FontsSelComboBox_SelectedIndexChanged);
             // 
             // boldCheckBox
             // 
@@ -500,6 +503,7 @@
             this.boldCheckBox.TabIndex = 6;
             this.boldCheckBox.Text = "B";
             this.boldCheckBox.UseVisualStyleBackColor = true;
+            this.boldCheckBox.CheckedChanged += new System.EventHandler(this.BoldCheckBox_CheckedChanged);
             // 
             // label7
             // 
@@ -537,6 +541,7 @@
             this.underlineCheckBox.TabIndex = 6;
             this.underlineCheckBox.Text = "U";
             this.underlineCheckBox.UseVisualStyleBackColor = true;
+            this.underlineCheckBox.CheckedChanged += new System.EventHandler(this.UnderlineCheckBox_CheckedChanged);
             // 
             // label6
             // 
@@ -563,6 +568,7 @@
             this.numericFontSize.Name = "numericFontSize";
             this.numericFontSize.Size = new System.Drawing.Size(114, 31);
             this.numericFontSize.TabIndex = 3;
+            this.numericFontSize.ValueChanged += new System.EventHandler(this.NumericFontSize_ValueChanged);
             // 
             // label11
             // 
@@ -623,6 +629,7 @@
             this.numericLineSpacing.Name = "numericLineSpacing";
             this.numericLineSpacing.Size = new System.Drawing.Size(114, 31);
             this.numericLineSpacing.TabIndex = 4;
+            this.numericLineSpacing.ValueChanged += new System.EventHandler(this.NumericLineSpacing_ValueChanged);
             // 
             // label5
             // 

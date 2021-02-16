@@ -25,6 +25,8 @@ namespace WindowsFormsApp1
         string presetDirPath = @".\preset\";
         ArrayList installedFontList = new ArrayList();
 
+        ParagraphStyle curStyle;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -221,7 +223,8 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void StyleListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var curStyle = (ParagraphStyle)styleListBox.SelectedItem;
+            curStyle = (ParagraphStyle)styleListBox.SelectedItem;
+
             editingGroupBox.Text = curStyle.StyleName;
             fontsSelComboBox.Text = curStyle.FontName;
             numericFontSize.Value = Convert.ToDecimal(curStyle.FontSizeLb);
@@ -248,7 +251,8 @@ namespace WindowsFormsApp1
 
             try
             {
-                colorPreviewLabel.ForeColor = ColorTranslator.FromHtml("#" + colorInputBox.Text); ;
+                colorPreviewLabel.ForeColor = ColorTranslator.FromHtml("#" + colorInputBox.Text);
+                curStyle.ColorHex = colorInputBox.Text;
             }
             catch (Exception)
             {
@@ -265,6 +269,41 @@ namespace WindowsFormsApp1
         private void CustomLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
             numericLineSpacing.Enabled = true;
+        }
+
+        private void FontsSelComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            curStyle.FontName = fontsSelComboBox.Text;
+        }
+
+        private void NumericFontSize_ValueChanged(object sender, EventArgs e)
+        {
+            curStyle.FontSizeLb = Convert.ToString(numericFontSize.Value);
+        }
+
+        private void NumericOutlevel_ValueChanged(object sender, EventArgs e)
+        {
+            curStyle.OutLineLvl = Convert.ToInt32(numericOutlevel.Value);
+        }
+
+        private void NumericLineSpacing_ValueChanged(object sender, EventArgs e)
+        {
+            curStyle.LineSpacingLb = Convert.ToString(numericLineSpacing.Value);
+        }
+
+        private void BoldCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.Bold = boldCheckBox.Checked;
+        }
+
+        private void UnderlineCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.Underline = underlineCheckBox.Checked;
+        }
+
+        private void ItalicCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.Italic = italicCheckBox.Checked;
         }
     }
 }
