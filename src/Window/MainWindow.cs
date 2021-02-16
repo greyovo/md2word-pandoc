@@ -20,7 +20,8 @@ namespace WindowsFormsApp1
         string sourcePath;
         string outputPath;
         string tempPath = @".\temp\ref.docx";
-        string pandocPath = @"C:\Prog1ram Files\Pandoc\pandoc.exe";
+        //string pandocPath = @"C:\Prog1ram Files\Pandoc\pandoc.exe";
+        string pandocPath = @"pandoc";
         string presetDirPath = @".\preset\";
         ArrayList installedFontList = new ArrayList();
 
@@ -47,26 +48,14 @@ namespace WindowsFormsApp1
             StyleManager.LoadStylePreset(presetDirPath);
             presetListCmbox.Items.AddRange(StyleManager.PresetList.ToArray());
 
-            // 加载的预设不为空
+            // 加载时预设不为空，默认加载第一个
             if (StyleManager.PresetList.Count > 0)
             {
                 presetListCmbox.SelectedIndex = 0;
                 var curGroup = (StyleGroup)presetListCmbox.SelectedItem;
                 styleListBox.Items.AddRange(curGroup.styles);
                 styleListBox.SelectedIndex = 0;
-
-                var curStyle = (ParagraphStyle)styleListBox.SelectedItem;
-                editingGroupBox.Text = curStyle.StyleName;
-                fontsSelComboBox.Text = curStyle.FontName;
-                numericFontSize.Value = Convert.ToDecimal(curStyle.FontSizeLb);
-                numericLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacingLb);
-                numericOutlevel.Value = Convert.ToDecimal(curStyle.OutLineLvl);
-                colorInputBox.Text = curStyle.ColorHex;
-                boldCheckBox.Checked = curStyle.Bold;
-                italicCheckBox.Checked = curStyle.Italic;
-                underlineCheckBox.Checked = curStyle.Underline;
             }
-            
 
         }
 
@@ -233,18 +222,49 @@ namespace WindowsFormsApp1
         private void StyleListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var curStyle = (ParagraphStyle)styleListBox.SelectedItem;
-
             editingGroupBox.Text = curStyle.StyleName;
-            curStyleNameIdLabel.Text = "StyleId = " + curStyle.StyleId;
-
             fontsSelComboBox.Text = curStyle.FontName;
             numericFontSize.Value = Convert.ToDecimal(curStyle.FontSizeLb);
             numericLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacingLb);
             numericOutlevel.Value = Convert.ToDecimal(curStyle.OutLineLvl);
             colorInputBox.Text = curStyle.ColorHex;
+            colorPreviewLabel.ForeColor = ColorTranslator.FromHtml("#" + colorInputBox.Text);
             boldCheckBox.Checked = curStyle.Bold;
             italicCheckBox.Checked = curStyle.Italic;
             underlineCheckBox.Checked = curStyle.Underline;
+            // TODO 行距自动与自定义的切换
+            autoLineSpaceRadioBtn.Checked = false;
+            customLineSpaceRadioBtn.Checked = true;
+        }
+
+
+        private void ColorInputBox_TextChanged(object sender, EventArgs e)
+        {
+            
+            if (colorInputBox.Text.Contains("#"))
+            {
+                colorInputBox.Text = colorInputBox.Text.Replace("#", "");
+            }
+
+            try
+            {
+                colorPreviewLabel.ForeColor = ColorTranslator.FromHtml("#" + colorInputBox.Text); ;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("颜色代码不正确！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+        private void AutoLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            numericLineSpacing.Enabled = false;
+        }
+
+        private void CustomLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            numericLineSpacing.Enabled = true;
         }
     }
 }
