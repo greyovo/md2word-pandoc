@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfParagraphStyle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ParagraphStyle>
+        <StyleName>Heading 1</StyleName>
+        <StyleId>Heading1</StyleId>
+        <FontName>黑体</FontName>
+        <FontSizeLb>14</FontSizeLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>1</OutLineLvl>
+        <Bold>true</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Heading 2</StyleName>
+        <StyleId>Heading2</StyleId>
+        <FontName>黑体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>2</OutLineLvl>
+        <Bold>true</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Heading 3</StyleName>
+        <StyleId>Heading3</StyleId>
+        <FontName>楷体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <LineSpacingLb>18</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>3</OutLineLvl>
+        <Bold>true</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Heading 4</StyleName>
+        <StyleId>4</StyleId>
+        <FontName>楷体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <LineSpacingLb>20</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>3</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>FirstParagraph</StyleName>
+        <StyleId>FirstParagraph</StyleId>
+        <FontName>宋体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <LineSpacingLb>20</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Body Text</StyleName>
+        <StyleId>BodyText</StyleId>
+        <FontName>宋体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <LineSpacingLb>20</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Block Text</StyleName>
+        <StyleId>a9</StyleId>
+        <FontName>宋体</FontName>
+        <FontSizeLb>12</FontSizeLb>
+        <LineSpacingLb>20</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>true</Italic>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleName>Source Code</StyleName>
+        <StyleId>SourceCode</StyleId>
+        <FontName>Consolas</FontName>
+        <FontSizeLb>11</FontSizeLb>
+        <LineSpacingLb>20</LineSpacingLb>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+    </ParagraphStyle>
+</ArrayOfParagraphStyle>
