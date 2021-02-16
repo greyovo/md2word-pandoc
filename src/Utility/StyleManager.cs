@@ -93,11 +93,6 @@ namespace WindowsFormsApp1.Utility
 
             StyleParagraphProperties styleParagraphProperties1 = new StyleParagraphProperties();
 
-            //NumberingProperties numberingProperties1 = new NumberingProperties();
-            //NumberingId numberingId1 = new NumberingId() { Val = 24 };
-            //numberingProperties1.Append(numberingId1);
-            //styleParagraphProperties1.Append(numberingProperties1);
-
             SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
             {
                 Line = "400",
@@ -137,8 +132,6 @@ namespace WindowsFormsApp1.Utility
         }
 
 
-
-
         /// <summary>
         /// 根据传入的参数生成一个指定的样式实例并返回
         /// </summary>
@@ -152,44 +145,16 @@ namespace WindowsFormsApp1.Utility
         /// <param name="isBold">是否加粗</param>
         /// <param name="isItalic">是否斜体</param>
         /// <returns>一个按照上述要求生成的Style实例</returns>
-        public static Style GenerateStyle(string styleName, string styleId,
+        public static Style GenerateParagraphStyle(string styleName, string styleId,
                                           string fontName, string fontSizeLb, string lineSpacingLb, string colorHex,
-                                          int outLineLvl, bool isBold, bool isItalic)
+                                          int outLineLvl, bool isBold, bool isItalic, bool isUnderline)
         {
             // 设置样式元数据
             Style style = new Style() { Type = StyleValues.Paragraph, StyleId = styleId };
             StyleName styleName1 = new StyleName() { Val = styleName };
-            //BasedOn basedOn1 = new BasedOn() { Val = "a" };
-
-            // 后续段落样式的，Val设置样式的ID
-            //NextParagraphStyle nextParagraphStyle1 = new NextParagraphStyle() { Val = "a0" }; // ?
-
-            // 在界面中展示的优先级，从0开始
-            UIPriority uIPriority1;
-            try
-            {
-                var prior = Convert.ToInt32(styleId);
-                uIPriority1 = new UIPriority() { Val = prior };
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                uIPriority1 = new UIPriority() { Val = 3 };
-            }
-
-            // ?
-            PrimaryStyle primaryStyle1 = new PrimaryStyle();
-
-            //Rsid rsid1 = new Rsid() { Val = "00A32AEE" };
 
             // 段落样式 ---------------------------------------------
             StyleParagraphProperties paragraphProperties = new StyleParagraphProperties();
-
-            // 不加这两个属性以避免段落前出现黑点
-            //KeepNext keepNext1 = new KeepNext();
-            //paragraphProperties.Append(keepNext1);
-            //KeepLines keepLines1 = new KeepLines();
-            //paragraphProperties.Append(keepLines1);
 
             // 行间距
             // 行间距值 = 磅值*20
@@ -215,8 +180,9 @@ namespace WindowsFormsApp1.Utility
                 paragraphProperties.Append(spacingBetweenLines1);
             }
 
-
-            // 大纲级别。从0开始，0代表1级，以此类推，-1表示正文，则不添加
+            // 大纲级别。
+            // 从0开始，0代表1级，以此类推
+            // -1表示正文，则不添加
             if (outLineLvl != -1)
             {
                 OutlineLevel outlineLevel1 = new OutlineLevel() { Val = outLineLvl };
@@ -230,7 +196,7 @@ namespace WindowsFormsApp1.Utility
                 Indentation indentation1 = new Indentation()
                 {
                     //FirstLine = "420",
-                    FirstLineChars = 200
+                    FirstLineChars = 200 // 表示首行两个字符
                 };
                 paragraphProperties.Append(indentation1);
             }
@@ -271,13 +237,7 @@ namespace WindowsFormsApp1.Utility
             }
 
             // 段落样式和字符设置完成 ---------------------------------
-
             style.Append(styleName1);
-            //style1.Append(basedOn1);
-            //style1.Append(nextParagraphStyle1);
-            style.Append(uIPriority1);
-            style.Append(primaryStyle1);
-            //style1.Append(rsid1);
             style.Append(paragraphProperties);
             style.Append(charProperties);
             return style;
@@ -288,10 +248,11 @@ namespace WindowsFormsApp1.Utility
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static Style GenerateStyle(ParagraphStyle p)
+        public static Style GenerateParagraphStyle(ParagraphStyle p)
         {
-            return GenerateStyle(p.StyleName, p.StyleId,
-                p.FontName, p.FontSizeLb, p.LineSpacingLb, p.ColorHex, p.OutLineLvl, p.Bold, p.Italic);
+            return GenerateParagraphStyle(p.StyleName, p.StyleId,
+                p.FontName, p.FontSizeLb, p.LineSpacingLb, p.ColorHex, 
+                p.OutLineLvl, p.Bold, p.Italic, p.Underline);
         }
 
 

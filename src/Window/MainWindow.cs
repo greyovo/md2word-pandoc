@@ -1,47 +1,73 @@
 ﻿using System;
-using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 using WindowsFormsApp1.Utility;
 using WindowsFormsApp1.Models;
 using Microsoft.VisualBasic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Drawing.Text;
+using System.Drawing;
+using System.Collections;
 
 public delegate int MyDelegate(int x);
 
 namespace WindowsFormsApp1
 {
-    public partial class Form0 : Form
+    public partial class MainWindow : Form
     {
         string sourcePath;
         string outputPath;
         string tempPath = @".\temp\ref.docx";
-        string pandocPath = @"C:\Program Files\Pandoc\pandoc.exe";
+        string pandocPath = @"C:\Prog1ram Files\Pandoc\pandoc.exe";
         string presetDirPath = @".\preset\";
+        ArrayList installedFontList = new ArrayList();
 
-        private ParagraphStyle H1Style;
-        private ParagraphStyle H2Style;
-        private ParagraphStyle H3Style;
-        private ParagraphStyle H4Style;
-        private ParagraphStyle BodyTextStyle;
-        private ParagraphStyle FirstParagraphStyle;
-        private ParagraphStyle BlockTextStyle;
-        private ParagraphStyle CodeTextStyle;
-
-        public Form0()
+        public MainWindow()
         {
             InitializeComponent();
         }
 
-        
+        private void LoadInstalledFonts()
+        {
+            FontFamily[] MyFontFamilies = new InstalledFontCollection().Families;
+            int Count = MyFontFamilies.Length;
+            for (int i = 0; i < Count; i++)
+            {
+                string FontName = MyFontFamilies[i].Name;
+                installedFontList.Add(FontName);
+            }
+            fontsSelComboBox.Items.AddRange(installedFontList.ToArray());
+        }
 
         private void CompLoad(object sender, EventArgs e)
         {
+            LoadInstalledFonts();
             StyleManager.LoadStylePreset(presetDirPath);
             presetListCmbox.Items.AddRange(StyleManager.PresetList.ToArray());
+
+            // 加载的预设不为空
+            if (StyleManager.PresetList.Count > 0)
+            {
+                presetListCmbox.SelectedIndex = 0;
+                var curGroup = (StyleGroup)presetListCmbox.SelectedItem;
+                styleListBox.Items.AddRange(curGroup.styles);
+                styleListBox.SelectedIndex = 0;
+
+                var curStyle = (ParagraphStyle)styleListBox.SelectedItem;
+                editingGroupBox.Text = curStyle.StyleName;
+                fontsSelComboBox.Text = curStyle.FontName;
+                numericFontSize.Value = Convert.ToDecimal(curStyle.FontSizeLb);
+                numericLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacingLb);
+                numericOutlevel.Value = Convert.ToDecimal(curStyle.OutLineLvl);
+                colorInputBox.Text = curStyle.ColorHex;
+                boldCheckBox.Checked = curStyle.Bold;
+                italicCheckBox.Checked = curStyle.Italic;
+                underlineCheckBox.Checked = curStyle.Underline;
+            }
+            
+
         }
 
         /// <summary>
@@ -53,18 +79,27 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void ExecuateBtn_Click(object sender, EventArgs e)
         {
+            // 未选择预设
             if (StyleManager.StyleList.Count == 0)
             {
                 MessageBox.Show("未选择预设！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // 未选择源文件
             sourcePath = sourceMdPath.Text;
             if (sourcePath.Equals(""))
             {
                 MessageBox.Show("未选择源md文件！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            // 文件类型错误，文件扩展名非markdown
+            if (!sourcePath.EndsWith(".md") || sourcePath.EndsWith(".markdown"))
+            {
+                MessageBox.Show("文件类型错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             string fileName = sourcePath.Substring(sourcePath.LastIndexOf("\\"));
             outputPath = sourcePath.Substring(0, sourcePath.LastIndexOf("\\"));
             outputPath += fileName + ".docx";
@@ -75,10 +110,10 @@ namespace WindowsFormsApp1
 
             foreach(ParagraphStyle paragraph in StyleManager.StyleList)
             {
-                DocumentManager.AddParagraphStyle(word, StyleManager.GenerateStyle(paragraph));
+                DocumentManager.AddParagraphStyle(word, StyleManager.GenerateParagraphStyle(paragraph));
             }
-            DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Normal"));
-            DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Compact"));
+            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Normal"));
+            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Compact"));
 
             word.Close();
 
@@ -95,7 +130,8 @@ namespace WindowsFormsApp1
             }
             catch (Exception)
             {
-                MessageBox.Show("未安装Pandoc！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // TODO 动态设置pandoc的安装目录
+                MessageBox.Show("未在'" + pandocPath + "'下找到Pandoc！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -186,6 +222,29 @@ namespace WindowsFormsApp1
             StyleGroup sel = (StyleGroup) presetListCmbox.SelectedItem;
             StyleManager.StyleList.Clear();
             StyleManager.StyleList.AddRange(sel.styles);
+        }
+
+
+        /// <summary>
+        /// 左侧列表内容改变后将样式的内容更新到右侧编辑界面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StyleListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var curStyle = (ParagraphStyle)styleListBox.SelectedItem;
+
+            editingGroupBox.Text = curStyle.StyleName;
+            curStyleNameIdLabel.Text = "StyleId = " + curStyle.StyleId;
+
+            fontsSelComboBox.Text = curStyle.FontName;
+            numericFontSize.Value = Convert.ToDecimal(curStyle.FontSizeLb);
+            numericLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacingLb);
+            numericOutlevel.Value = Convert.ToDecimal(curStyle.OutLineLvl);
+            colorInputBox.Text = curStyle.ColorHex;
+            boldCheckBox.Checked = curStyle.Bold;
+            italicCheckBox.Checked = curStyle.Italic;
+            underlineCheckBox.Checked = curStyle.Underline;
         }
     }
 }

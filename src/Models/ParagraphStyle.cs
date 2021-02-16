@@ -17,6 +17,7 @@ namespace WindowsFormsApp1.Models
         public int OutLineLvl { get; set; }
         public bool Bold { get; set; }
         public bool Italic { get; set; }
+        public bool Underline { get; set; }
 
         public ParagraphStyle()
         {
@@ -24,15 +25,15 @@ namespace WindowsFormsApp1.Models
 
         public Style GetStyle()
         {
-            return StyleManager.GenerateStyle(this);
+            return StyleManager.GenerateParagraphStyle(this);
         }
 
         public override string ToString()
         {
-            string res = FontName + ", "+ FontSizeLb + "pt, #"+ ColorHex;
-            res += Bold ? ", 加粗" : "";
-            res += Italic ? ", 斜体" : "";
-            return res;
+            //string res = FontName + ", "+ FontSizeLb + "pt, #"+ ColorHex;
+            //res += Bold ? ", 加粗" : "";
+            //res += Italic ? ", 斜体" : "";
+            return StyleName;
         }
 
     }
