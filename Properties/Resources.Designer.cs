@@ -81,11 +81,52 @@ namespace Md2Word.Properties {
         }
         
         /// <summary>
+        ///   查找类似 &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;ArrayOfParagraphStyle xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///    &lt;ParagraphStyle&gt;
+        ///        &lt;StyleType&gt;paragraph&lt;/StyleType&gt;
+        ///        &lt;StyleName&gt;Heading 1&lt;/StyleName&gt;
+        ///        &lt;StyleId&gt;Heading1&lt;/StyleId&gt;
+        ///        &lt;FontName&gt;黑体&lt;/FontName&gt;
+        ///        &lt;FontSize&gt;16&lt;/FontSize&gt;
+        ///        &lt;ColorHex&gt;000000&lt;/ColorHex&gt;
+        ///        &lt;OutLineLvl&gt;1&lt;/OutLineLvl&gt;
+        ///        &lt;Bold&gt;true&lt;/Bold&gt;
+        ///        &lt;Italic&gt;false&lt;/Italic&gt;
+        ///        [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string default_preset {
+            get {
+                return ResourceManager.GetString("default_preset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap double_right_48px {
             get {
                 object obj = ResourceManager.GetObject("double_right_48px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap github_20px {
+            get {
+                object obj = ResourceManager.GetObject("github_20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap github_30px {
+            get {
+                object obj = ResourceManager.GetObject("github_30px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -157,6 +198,15 @@ namespace Md2Word.Properties {
             get {
                 object obj = ResourceManager.GetObject("opened_folder_20px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string pandocPath {
+            get {
+                return ResourceManager.GetString("pandocPath", resourceCulture);
             }
         }
         

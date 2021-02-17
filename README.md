@@ -119,17 +119,17 @@ To produce a custom `reference.docx`, first get a copy of the default `reference
 
 #### 段落样式
 
-| 样式名          | 描述                                                  | 必须 |
-| --------------- | ----------------------------------------------------- | ---- |
-| Normal          | 默认文本。在有序列表中会使用该样式                    | 是   |
-| Body Text       | 正文文本。在正文段落中应用                            | 是   |
-| First Paragraph | 段落首段，一般和Body Text一样即可，在段落的第一行应用 | 是   |
-| Compact         | 在无序列表中应用                                      | 是   |
-| Heading 1       | 一级标题                                              | 是   |
-| Heading 2       | 二级标题                                              | 是   |
-| Heading 3       | 三级标题                                              | 是   |
-| Heading 4       | 四级标题                                              | 否   |
-| Block Text      | 引用块文字                                            | 是   |
+| 样式名          | 描述                                                         | 必须 |
+| --------------- | ------------------------------------------------------------ | ---- |
+| Normal          | 默认文本。在有序列表中会使用该样式，一般和Body Text一致并禁用首行缩进 | 是   |
+| Body Text       | 正文文本。在正文段落中应用                                   | 是   |
+| First Paragraph | 段落首段，一般和Body Text一样即可，在段落的第一行应用        | 是   |
+| Compact         | 在无序列表中应用                                             | 是   |
+| Heading 1       | 一级标题                                                     | 是   |
+| Heading 2       | 二级标题                                                     | 是   |
+| Heading 3       | 三级标题                                                     | 是   |
+| Heading 4       | 四级标题                                                     | 否   |
+| Block Text      | 引用块文字                                                   | 是   |
 
 更多：
 
