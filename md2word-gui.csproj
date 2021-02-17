@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9427E49B-1A70-479B-A509-1E9FF20F05AE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WindowsFormsApp1</RootNamespace>
+    <RootNamespace>Md2Word</RootNamespace>
     <AssemblyName>Md2Word</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="src\Models\CharacterStyle.cs" />
     <Compile Include="src\Models\StyleGroup.cs" />
+    <Compile Include="src\Utility\ColorUtil.cs" />
     <Compile Include="src\Utility\DocumentManager.cs" />
     <Compile Include="src\Utility\StyleManager.cs" />
     <Compile Include="src\Utility\XMLManager.cs" />

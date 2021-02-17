@@ -1,15 +1,82 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Windows.Forms;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Md2Word.Models;
 
-namespace WindowsFormsApp1.Utility
+namespace Md2Word.Utility
 {
     public class DocumentManager
     {
+        static string tempPath = @".\temp\ref.docx";
+        static string pandocPath = @"pandoc";
+        static string presetDirPath = @".\preset\";
+
+        public static void Transform2Word (string sourcePath, string outputPath)
+        {
+            // 未选择预设
+            if (StyleManager.StyleList.Count == 0)
+            {
+                MessageBox.Show("未选择预设！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 未选择源文件
+            
+            if (sourcePath.Equals(""))
+            {
+                MessageBox.Show("未选择源md文件！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 文件类型错误，文件扩展名非markdown
+            if (!sourcePath.EndsWith(".md") || sourcePath.EndsWith(".markdown"))
+            {
+                MessageBox.Show("文件类型错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            string fileName = sourcePath.Substring(sourcePath.LastIndexOf("\\"));
+            outputPath = sourcePath.Substring(0, sourcePath.LastIndexOf("\\"));
+            outputPath += fileName + ".docx";
+
+            // 步骤1：新建样式模板docx
+            DocumentManager.CreateNewDocument(tempPath);
+            WordprocessingDocument word = WordprocessingDocument.Open(tempPath, true);
+
+            foreach (ParagraphStyle ps in StyleManager.StyleList)
+            {
+                AddParagraphStyle(word, StyleManager.GenerateParagraphStyle(ps));
+            }
+            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Normal"));
+            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Compact"));
+
+            word.Close();
+
+            string args = "-o " + outputPath + " " + sourcePath +
+                " --reference-doc=" + tempPath;
+
+            // 步骤2：调用pandoc
+            using(Process pandoc = new Process())
+            {
+                try
+                {
+                    pandoc.StartInfo.FileName = pandocPath;
+                    pandoc.StartInfo.Arguments = args;
+                    pandoc.Start();
+                }
+                catch (Exception)
+                {
+                    // TODO 动态设置pandoc的安装目录
+                    MessageBox.Show("未在'" + pandocPath + "'下找到Pandoc！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
         /// <summary>
         /// 创建一个新的Word文档
         /// </summary>

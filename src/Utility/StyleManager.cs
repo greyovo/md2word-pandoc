@@ -3,24 +3,24 @@ using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
 using System.Collections;
-using WindowsFormsApp1.Models;
+using Md2Word.Models;
 using System.IO;
 using System.Text;
 
 /// <summary>
 /// 样式管理与生成
 /// </summary>
-namespace WindowsFormsApp1.Utility
+namespace Md2Word.Utility
 {
     public class StyleManager
     {
 
-        public static ArrayList StyleList = new ArrayList(7);
+        public static ArrayList StyleList = new ArrayList();
 
         public static ArrayList PresetList = new ArrayList();
 
         /// <summary>
-        /// 加载XML保存的预设
+        /// 加载本地XML保存的预设
         /// </summary>
         /// <param name="presetPath"></param>
         public static void LoadStylePreset(string presetPath)
@@ -64,94 +64,23 @@ namespace WindowsFormsApp1.Utility
         }
 
         /// <summary>
-        /// 生成基本样式
-        /// </summary>
-        /// <returns></returns>
-        public static Style GenerateNormalStyle()
-        {
-            Style style1 = new Style() { Type = StyleValues.Paragraph, StyleId = "Normal", Default = true };
-            StyleName styleName1 = new StyleName() { Val = "Normal" };
-            PrimaryStyle primaryStyle1 = new PrimaryStyle();
-
-            style1.Append(styleName1);
-            style1.Append(primaryStyle1);
-            return style1;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static Style GenerateNormalStyle(string styleName)
-        {
-            Style style1 = new Style() { Type = StyleValues.Paragraph, StyleId = styleName };
-            StyleName styleName1 = new StyleName() { Val = styleName };
-            //BasedOn basedOn1 = new BasedOn() { Val = "BodyText" };
-            PrimaryStyle primaryStyle1 = new PrimaryStyle();
-            Rsid rsid1 = new Rsid() { Val = "00D80145" };
-
-            StyleParagraphProperties styleParagraphProperties1 = new StyleParagraphProperties();
-
-            SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
-            {
-                Line = "400",
-                LineRule = LineSpacingRuleValues.Exact
-            };
-            styleParagraphProperties1.Append(spacingBetweenLines1);
-
-            // 缩进
-            if (styleName.Equals("Compact"))
-            {
-                Indentation indentation1 = new Indentation()
-                {
-                    LeftChars = 200,
-                    Left = "420",
-                    FirstLine = "0"
-                };
-
-                styleParagraphProperties1.Append(indentation1);
-            }
-
-            StyleRunProperties styleRunProperties1 = new StyleRunProperties();
-            RunFonts runFonts1 = new RunFonts() { EastAsia = "宋体" };
-            FontSize fontSize1 = new FontSize() { Val = "24" };
-            FontSizeComplexScript fontSizeComplexScript1 = new FontSizeComplexScript() { Val = "24" };
-
-            styleRunProperties1.Append(runFonts1);
-            styleRunProperties1.Append(fontSize1);
-            styleRunProperties1.Append(fontSizeComplexScript1);
-
-            style1.Append(styleName1);
-            //style1.Append(basedOn1);
-            style1.Append(primaryStyle1);
-            style1.Append(rsid1);
-            style1.Append(styleParagraphProperties1);
-            style1.Append(styleRunProperties1);
-            return style1;
-        }
-
-
-        /// <summary>
         /// 根据传入的参数生成一个指定的样式实例并返回
         /// </summary>
         /// <param name="styleName">样式名</param>
         /// <param name="styleId">样式ID</param>
         /// <param name="fontName">字体名</param>
-        /// <param name="fontSizeLb">字号大小</param>
-        /// <param name="lineSpacingLb">行高</param>
+        /// <param name="fontSize">字号大小</param>
+        /// <param name="lineSpacing">行高</param>
         /// <param name="colorHex">字体颜色</param>
         /// <param name="outLineLvl">大纲级别</param>
         /// <param name="isBold">是否加粗</param>
         /// <param name="isItalic">是否斜体</param>
         /// <returns>一个按照上述要求生成的Style实例</returns>
-        public static Style GenerateParagraphStyle(string styleName, string styleId,
-                                          string fontName, string fontSizeLb, string lineSpacingLb, string colorHex,
-                                          int outLineLvl, bool isBold, bool isItalic, bool isUnderline)
+        public static Style GenerateParagraphStyle(ParagraphStyle p)
         {
             // 设置样式元数据
-            Style style = new Style() { Type = StyleValues.Paragraph, StyleId = styleId };
-            StyleName styleName1 = new StyleName() { Val = styleName };
+            Style style = new Style() { Type = StyleValues.Paragraph, StyleId = p.StyleId };
+            StyleName styleName = new StyleName() { Val = p.StyleName };
 
             // 段落样式 ---------------------------------------------
             StyleParagraphProperties paragraphProperties = new StyleParagraphProperties();
@@ -161,9 +90,9 @@ namespace WindowsFormsApp1.Utility
             // 可设置的属性有：
             // Before段前、After段后、Line行距、LineRule行距类型
             // LineRule（枚举：单倍行距、固定值(取决于Line的值)、最小行距）
-            if (lineSpacingLb != null && !lineSpacingLb.Equals(""))
+            if (!string.IsNullOrEmpty(p.LineSpacing))
             {
-                string lineSpacingStr = Convert.ToString(Convert.ToDouble(lineSpacingLb) * 20);
+                string lineSpacingStr = Convert.ToString(Convert.ToDouble(p.LineSpacing) * 20);
                 SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
                 {
                     Line = lineSpacingStr,
@@ -173,89 +102,74 @@ namespace WindowsFormsApp1.Utility
             }
             else
             {
-                SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
+                SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines()
                 {
                     LineRule = LineSpacingRuleValues.Auto
                 };
-                paragraphProperties.Append(spacingBetweenLines1);
+                paragraphProperties.Append(spacingBetweenLines);
             }
 
             // 大纲级别。
             // 从0开始，0代表1级，以此类推
             // -1表示正文，则不添加
-            if (outLineLvl != -1)
+            if (p.OutLineLvl != -1)
             {
-                OutlineLevel outlineLevel1 = new OutlineLevel() { Val = outLineLvl };
-                SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines() { Before = "150", After = "150" };
-                paragraphProperties.Append(spacingBetweenLines1);
-                paragraphProperties.Append(outlineLevel1);
+                Console.WriteLine(p.OutLineLvl);
+                OutlineLevel outlineLevel = new OutlineLevel() { Val = p.OutLineLvl };
+                SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines() { Before = "150", After = "150" };
+                paragraphProperties.Append(spacingBetweenLines);
+                paragraphProperties.Append(outlineLevel);
             }
-            else
+
+            // 首行缩进
+            if (p.FirstLineIndentation)
             {
-                // 是正文，首行缩进
-                Indentation indentation1 = new Indentation()
+                Indentation indentation = new Indentation()
                 {
-                    //FirstLine = "420",
-                    FirstLineChars = 200 // 表示首行两个字符
+                    // FirstLine = "420",
+                    FirstLineChars = 200 // 表示首行缩进两个字符
                 };
-                paragraphProperties.Append(indentation1);
+                paragraphProperties.Append(indentation);
             }
 
             // 字符样式 ---------------------------------------------
             StyleRunProperties charProperties = new StyleRunProperties();
 
             // 字体
-            RunFonts runFonts1 = new RunFonts() { Ascii = fontName, HighAnsi = fontName, EastAsia = fontName, ComplexScriptTheme = ThemeFontValues.MajorBidi };
-            charProperties.Append(runFonts1);
+            RunFonts runFonts = new RunFonts() { Ascii = p.FontName, HighAnsi = p.FontName, EastAsia = p.FontName, ComplexScriptTheme = ThemeFontValues.MajorBidi };
+            charProperties.Append(runFonts);
 
             // 字号
             // 字号 = 磅值*2
-            string sizeStr = Convert.ToString(Convert.ToDouble(fontSizeLb) * 2);
-            FontSize fontSize1 = new FontSize() { Val = sizeStr };
-            FontSizeComplexScript fontSizeComplexScript1 = new FontSizeComplexScript() { Val = sizeStr };
-            charProperties.Append(fontSize1);
-            charProperties.Append(fontSizeComplexScript1);
+            string sizeStr = Convert.ToString(Convert.ToDouble(p.FontSize) * 2);
+            charProperties.Append(new FontSize() { Val = sizeStr });
+            charProperties.Append(new FontSizeComplexScript() { Val = sizeStr });
 
             // 颜色
-            Color color1 = new Color() { Val = colorHex };
-            charProperties.Append(color1);
+            Color color = new Color() { Val = p.ColorHex };
+            charProperties.Append(color);
 
             // 加粗
-            if (isBold)
+            if (p.Bold)
             {
-                Bold bold1 = new Bold();
-                BoldComplexScript boldComplexScript1 = new BoldComplexScript();
-                charProperties.Append(bold1);
-                charProperties.Append(boldComplexScript1);
+                charProperties.Append(new Bold());
+                charProperties.Append(new BoldComplexScript());
             }
 
             // 斜体
-            if (isItalic)
-            {
-                Italic italic = new Italic();
-                charProperties.Append(italic);
-            }
+            if (p.Italic)
+                charProperties.Append(new Italic());
+
+            // 下划线
+            if (p.Underline)
+                charProperties.Append(new Underline() { Val = UnderlineValues.Single } );
 
             // 段落样式和字符设置完成 ---------------------------------
-            style.Append(styleName1);
+            style.Append(styleName);
             style.Append(paragraphProperties);
             style.Append(charProperties);
             return style;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static Style GenerateParagraphStyle(ParagraphStyle p)
-        {
-            return GenerateParagraphStyle(p.StyleName, p.StyleId,
-                p.FontName, p.FontSizeLb, p.LineSpacingLb, p.ColorHex, 
-                p.OutLineLvl, p.Bold, p.Italic, p.Underline);
-        }
-
-
 
     }
 }
