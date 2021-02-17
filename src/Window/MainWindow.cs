@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using DocumentFormat.OpenXml.Packaging;
 using Md2Word.Utility;
 using Md2Word.Models;
 using Microsoft.VisualBasic;
@@ -10,8 +9,8 @@ using System.Text.RegularExpressions;
 using System.Drawing.Text;
 using System.Drawing;
 using System.Collections;
-
-public delegate int MyDelegate(int x);
+using DocumentFormat.OpenXml.Wordprocessing;
+using Md2Word.Window;
 
 namespace Md2Word
 {
@@ -25,6 +24,10 @@ namespace Md2Word
         string presetDirPath = @".\preset\";
         ArrayList installedFontList = new ArrayList();
 
+        HelpWindow helpWindow = new HelpWindow();
+
+        // 左侧样式列表选中的Style对象
+        // 这里新建一个对象，是防止在没有预设加载时出现的空指针错误
         ParagraphStyle curStyle = new ParagraphStyle();
 
         public MainWindow()
@@ -32,9 +35,12 @@ namespace Md2Word
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 加载系统字体列表
+        /// </summary>
         private void LoadInstalledFonts()
         {
-            FontFamily[] MyFontFamilies = new InstalledFontCollection().Families;
+            System.Drawing.FontFamily[] MyFontFamilies = new InstalledFontCollection().Families;
             int Count = MyFontFamilies.Length;
             for (int i = 0; i < Count; i++)
             {
@@ -45,7 +51,12 @@ namespace Md2Word
             sourceMdPathInputBox.Text = testMdPath;
         }
 
-        private void CompLoad(object sender, EventArgs e)
+        /// <summary>
+        /// 设置各个控件的初始信息和状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoadComponentData(object sender, EventArgs e)
         {
             LoadInstalledFonts();
             StyleManager.LoadStylePreset(presetDirPath);
@@ -56,10 +67,9 @@ namespace Md2Word
             {
                 presetListCmbox.SelectedIndex = 0;
                 var curGroup = (StyleGroup)presetListCmbox.SelectedItem;
-                空.Items.AddRange(curGroup.styles);
-                空.SelectedIndex = 0;
+                styleListBox.Items.AddRange(curGroup.styles);
+                styleListBox.SelectedIndex = 0;
             }
-
         }
 
         /// <summary>
@@ -75,8 +85,11 @@ namespace Md2Word
             DocumentManager.Transform2Word(sourcePath, outputPath);
         }
 
-
-        //当拖放完成时发生
+        /// <summary>
+        /// 当拖放完成时发生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SourceMdPath_DragDrop(object sender, DragEventArgs e)
         {
             //取出拖放数据，返回类型为 Object，需要强制转换成 string[] 类型
@@ -86,14 +99,17 @@ namespace Md2Word
             sourceMdPathInputBox.Text = sourcePath;
         }
 
-        //当鼠标拖动到控件时发生
+        /// <summary>
+        /// 当鼠标拖动到控件时发生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SourceMdPath_DragEnter(object sender, DragEventArgs e)
         {
             //表示接收到的数据是文件类型
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                //设置鼠标效果
-                e.Effect = DragDropEffects.All;
+                e.Effect = DragDropEffects.All; // 设置鼠标效果
             }
         }
 
@@ -107,6 +123,7 @@ namespace Md2Word
             sourcePath = openFileDialog.FileName;
             sourceMdPathInputBox.Text = sourcePath;
         }
+
         /// <summary>
         /// 新建预设并保存
         /// </summary>
@@ -156,7 +173,7 @@ namespace Md2Word
         /// <param name="e"></param>
         private void StyleListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            curStyle = (ParagraphStyle)空.SelectedItem;
+            curStyle = (ParagraphStyle)styleListBox.SelectedItem;
 
             editingGroupBox.Text = curStyle.StyleName;
             fontsSelComboBox.Text = curStyle.FontName;
@@ -172,6 +189,28 @@ namespace Md2Word
             // TODO 行距自动与自定义的切换
             autoLineSpaceRadioBtn.Checked = false;
             customLineSpaceRadioBtn.Checked = true;
+            // 对齐方式
+            switch (curStyle.JustificationValues)
+            {
+                case JustificationValues.Left:
+                    leftAlignRadioBtn.Checked = true;
+                    break;
+                case JustificationValues.Right:
+                    rightAlignRadioBtn.Checked = true;
+                    break;
+                case JustificationValues.Center:
+                    centerAlignRadioBtn.Checked = true;
+                    break;
+                case JustificationValues.Both:
+                    bothAlignRadioBtn.Checked = true;
+                    break;
+                case JustificationValues.Distribute:
+                    distributeAlignRadioBtn.Checked = true;
+                    break;
+                default:
+                    leftAlignRadioBtn.Checked = true;
+                    break;
+            }
         }
 
 
@@ -250,6 +289,41 @@ namespace Md2Word
         private void FirstLineIndentationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             curStyle.FirstLineIndentation = firstLineIndentationCheckBox.Checked; 
+        }
+
+        private void LeftAlignRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.JustificationValues = JustificationValues.Left;
+        }
+
+        private void CenterAlignRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.JustificationValues = JustificationValues.Center;
+        }
+
+        private void RightAlignRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.JustificationValues = JustificationValues.Right;
+        }
+
+        private void BothAlignRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.JustificationValues = JustificationValues.Both;
+        }
+
+        private void DistributeAlignRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            curStyle.JustificationValues = JustificationValues.Distribute;
+        }
+
+        private void HelpBtn_Click(object sender, EventArgs e)
+        {
+            // 单例模式
+            if (helpWindow.IsDisposed)
+            {
+                helpWindow = new HelpWindow();
+            }
+            helpWindow.Show();
         }
     }
 }

@@ -14,7 +14,6 @@ namespace Md2Word.Utility
     {
         static string tempPath = @".\temp\ref.docx";
         static string pandocPath = @"pandoc";
-        static string presetDirPath = @".\preset\";
 
         public static void Transform2Word (string sourcePath, string outputPath)
         {
@@ -26,7 +25,6 @@ namespace Md2Word.Utility
             }
 
             // 未选择源文件
-            
             if (sourcePath.Equals(""))
             {
                 MessageBox.Show("未选择源md文件！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -44,15 +42,13 @@ namespace Md2Word.Utility
             outputPath += fileName + ".docx";
 
             // 步骤1：新建样式模板docx
-            DocumentManager.CreateNewDocument(tempPath);
+            CreateNewDocument(tempPath);
             WordprocessingDocument word = WordprocessingDocument.Open(tempPath, true);
 
             foreach (ParagraphStyle ps in StyleManager.StyleList)
             {
-                AddParagraphStyle(word, StyleManager.GenerateParagraphStyle(ps));
+                AddParagraphStyle(word, StyleManager.GenerateStyle(ps));
             }
-            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Normal"));
-            //DocumentManager.AddParagraphStyle(word, StyleManager.GenerateNormalStyle("Compact"));
 
             word.Close();
 
@@ -60,7 +56,7 @@ namespace Md2Word.Utility
                 " --reference-doc=" + tempPath;
 
             // 步骤2：调用pandoc
-            using(Process pandoc = new Process())
+            using (Process pandoc = new Process())
             {
                 try
                 {
@@ -114,7 +110,8 @@ namespace Md2Word.Utility
             // Access the root element of the styles part.
             Styles styles = GetStyleDefinitionsPart(word).Styles;
             // Add the style to the styles part.
-            styles.Append(style);
+            if (style != null)
+                styles.Append(style);
         }
 
 

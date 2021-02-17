@@ -51,12 +51,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Models\CharacterStyle.cs" />
     <Compile Include="src\Models\StyleGroup.cs" />
     <Compile Include="src\Utility\ColorUtil.cs" />
     <Compile Include="src\Utility\DocumentManager.cs" />
     <Compile Include="src\Utility\StyleManager.cs" />
     <Compile Include="src\Utility\XMLManager.cs" />
+    <Compile Include="src\Window\HelpWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Window\HelpWindow.Designer.cs">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Window\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +71,9 @@
     <Compile Include="src\Models\ParagraphStyle.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="src\Window\HelpWindow.resx">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Window\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +141,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\next_20px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\preset\default_preset.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\github_20px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\github_30px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

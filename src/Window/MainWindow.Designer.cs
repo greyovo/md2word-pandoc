@@ -40,9 +40,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.aboutBtn = new System.Windows.Forms.Button();
             this.execuateBtn = new System.Windows.Forms.Button();
-            this.空 = new System.Windows.Forms.ListBox();
+            this.styleListBox = new System.Windows.Forms.ListBox();
             this.saveAsBtn = new System.Windows.Forms.Button();
             this.resetBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,6 +50,13 @@
             this.presetListCmbox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.editingGroupBox = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.distributeAlignRadioBtn = new System.Windows.Forms.RadioButton();
+            this.bothAlignRadioBtn = new System.Windows.Forms.RadioButton();
+            this.label17 = new System.Windows.Forms.Label();
+            this.rightAlignRadioBtn = new System.Windows.Forms.RadioButton();
+            this.leftAlignRadioBtn = new System.Windows.Forms.RadioButton();
+            this.centerAlignRadioBtn = new System.Windows.Forms.RadioButton();
             this.selectColorBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -78,6 +84,7 @@
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.editingGroupBox.SuspendLayout();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericOutlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericFontSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLineSpacing)).BeginInit();
@@ -166,10 +173,11 @@
             this.helpBtn.Name = "helpBtn";
             this.helpBtn.Size = new System.Drawing.Size(171, 31);
             this.helpBtn.TabIndex = 6;
-            this.helpBtn.Text = "如何使用?";
+            this.helpBtn.Text = "帮助/Help";
             this.helpBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.helpBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.helpBtn.UseVisualStyleBackColor = true;
+            this.helpBtn.Click += new System.EventHandler(this.HelpBtn_Click);
             // 
             // label9
             // 
@@ -215,22 +223,6 @@
             this.label12.TabIndex = 9;
             this.label12.Text = "    ";
             // 
-            // aboutBtn
-            // 
-            this.aboutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.aboutBtn.BackColor = System.Drawing.Color.Gainsboro;
-            this.aboutBtn.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.aboutBtn.Image = global::Md2Word.Properties.Resources.info_20px;
-            this.aboutBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.aboutBtn.Location = new System.Drawing.Point(30, 609);
-            this.aboutBtn.Name = "aboutBtn";
-            this.aboutBtn.Size = new System.Drawing.Size(102, 31);
-            this.aboutBtn.TabIndex = 6;
-            this.aboutBtn.Text = "关于";
-            this.aboutBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.aboutBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.aboutBtn.UseVisualStyleBackColor = false;
-            // 
             // execuateBtn
             // 
             this.execuateBtn.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -246,15 +238,15 @@
             this.execuateBtn.UseVisualStyleBackColor = true;
             this.execuateBtn.Click += new System.EventHandler(this.ExecuateBtn_Click);
             // 
-            // 空
+            // styleListBox
             // 
-            this.空.FormattingEnabled = true;
-            this.空.ItemHeight = 24;
-            this.空.Location = new System.Drawing.Point(18, 88);
-            this.空.Name = "空";
-            this.空.Size = new System.Drawing.Size(176, 268);
-            this.空.TabIndex = 10;
-            this.空.SelectedIndexChanged += new System.EventHandler(this.StyleListBox_SelectedIndexChanged);
+            this.styleListBox.FormattingEnabled = true;
+            this.styleListBox.ItemHeight = 24;
+            this.styleListBox.Location = new System.Drawing.Point(18, 88);
+            this.styleListBox.Name = "styleListBox";
+            this.styleListBox.Size = new System.Drawing.Size(176, 268);
+            this.styleListBox.TabIndex = 10;
+            this.styleListBox.SelectedIndexChanged += new System.EventHandler(this.StyleListBox_SelectedIndexChanged);
             // 
             // saveAsBtn
             // 
@@ -331,7 +323,7 @@
             // 
             this.groupBox1.Controls.Add(this.editingGroupBox);
             this.groupBox1.Controls.Add(this.statementLabel);
-            this.groupBox1.Controls.Add(this.空);
+            this.groupBox1.Controls.Add(this.styleListBox);
             this.groupBox1.Controls.Add(this.presetListCmbox);
             this.groupBox1.Controls.Add(this.newPresetBtn);
             this.groupBox1.Controls.Add(this.saveBtn);
@@ -348,6 +340,7 @@
             // 
             // editingGroupBox
             // 
+            this.editingGroupBox.Controls.Add(this.panel2);
             this.editingGroupBox.Controls.Add(this.selectColorBtn);
             this.editingGroupBox.Controls.Add(this.label2);
             this.editingGroupBox.Controls.Add(this.label16);
@@ -372,14 +365,100 @@
             this.editingGroupBox.Controls.Add(this.label4);
             this.editingGroupBox.Location = new System.Drawing.Point(219, 88);
             this.editingGroupBox.Name = "editingGroupBox";
-            this.editingGroupBox.Size = new System.Drawing.Size(662, 228);
+            this.editingGroupBox.Size = new System.Drawing.Size(662, 268);
             this.editingGroupBox.TabIndex = 11;
             this.editingGroupBox.TabStop = false;
             this.editingGroupBox.Text = "未选择样式";
             // 
+            // panel2
+            // 
+            this.panel2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panel2.Controls.Add(this.distributeAlignRadioBtn);
+            this.panel2.Controls.Add(this.bothAlignRadioBtn);
+            this.panel2.Controls.Add(this.label17);
+            this.panel2.Controls.Add(this.rightAlignRadioBtn);
+            this.panel2.Controls.Add(this.leftAlignRadioBtn);
+            this.panel2.Controls.Add(this.centerAlignRadioBtn);
+            this.panel2.Location = new System.Drawing.Point(6, 167);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(650, 44);
+            this.panel2.TabIndex = 15;
+            // 
+            // distributeAlignRadioBtn
+            // 
+            this.distributeAlignRadioBtn.AutoSize = true;
+            this.distributeAlignRadioBtn.Location = new System.Drawing.Point(510, 7);
+            this.distributeAlignRadioBtn.Name = "distributeAlignRadioBtn";
+            this.distributeAlignRadioBtn.Size = new System.Drawing.Size(109, 29);
+            this.distributeAlignRadioBtn.TabIndex = 11;
+            this.distributeAlignRadioBtn.TabStop = true;
+            this.distributeAlignRadioBtn.Text = "分散对齐";
+            this.distributeAlignRadioBtn.UseVisualStyleBackColor = true;
+            this.distributeAlignRadioBtn.CheckedChanged += new System.EventHandler(this.DistributeAlignRadioBtn_CheckedChanged);
+            // 
+            // bothAlignRadioBtn
+            // 
+            this.bothAlignRadioBtn.AutoSize = true;
+            this.bothAlignRadioBtn.Location = new System.Drawing.Point(385, 7);
+            this.bothAlignRadioBtn.Name = "bothAlignRadioBtn";
+            this.bothAlignRadioBtn.Size = new System.Drawing.Size(109, 29);
+            this.bothAlignRadioBtn.TabIndex = 11;
+            this.bothAlignRadioBtn.TabStop = true;
+            this.bothAlignRadioBtn.Text = "两端对齐";
+            this.bothAlignRadioBtn.UseVisualStyleBackColor = true;
+            this.bothAlignRadioBtn.CheckedChanged += new System.EventHandler(this.BothAlignRadioBtn_CheckedChanged);
+            // 
+            // label17
+            // 
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label17.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label17.Location = new System.Drawing.Point(10, 9);
+            this.label17.Margin = new System.Windows.Forms.Padding(0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(72, 25);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "对齐：";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // rightAlignRadioBtn
+            // 
+            this.rightAlignRadioBtn.AutoSize = true;
+            this.rightAlignRadioBtn.Location = new System.Drawing.Point(279, 7);
+            this.rightAlignRadioBtn.Name = "rightAlignRadioBtn";
+            this.rightAlignRadioBtn.Size = new System.Drawing.Size(90, 29);
+            this.rightAlignRadioBtn.TabIndex = 11;
+            this.rightAlignRadioBtn.TabStop = true;
+            this.rightAlignRadioBtn.Text = "右对齐";
+            this.rightAlignRadioBtn.UseVisualStyleBackColor = true;
+            this.rightAlignRadioBtn.CheckedChanged += new System.EventHandler(this.RightAlignRadioBtn_CheckedChanged);
+            // 
+            // leftAlignRadioBtn
+            // 
+            this.leftAlignRadioBtn.AutoSize = true;
+            this.leftAlignRadioBtn.Location = new System.Drawing.Point(84, 7);
+            this.leftAlignRadioBtn.Name = "leftAlignRadioBtn";
+            this.leftAlignRadioBtn.Size = new System.Drawing.Size(90, 29);
+            this.leftAlignRadioBtn.TabIndex = 11;
+            this.leftAlignRadioBtn.TabStop = true;
+            this.leftAlignRadioBtn.Text = "左对齐";
+            this.leftAlignRadioBtn.UseVisualStyleBackColor = true;
+            this.leftAlignRadioBtn.CheckedChanged += new System.EventHandler(this.LeftAlignRadioBtn_CheckedChanged);
+            // 
+            // centerAlignRadioBtn
+            // 
+            this.centerAlignRadioBtn.AutoSize = true;
+            this.centerAlignRadioBtn.Location = new System.Drawing.Point(188, 7);
+            this.centerAlignRadioBtn.Name = "centerAlignRadioBtn";
+            this.centerAlignRadioBtn.Size = new System.Drawing.Size(71, 29);
+            this.centerAlignRadioBtn.TabIndex = 11;
+            this.centerAlignRadioBtn.TabStop = true;
+            this.centerAlignRadioBtn.Text = "居中";
+            this.centerAlignRadioBtn.UseVisualStyleBackColor = true;
+            this.centerAlignRadioBtn.CheckedChanged += new System.EventHandler(this.CenterAlignRadioBtn_CheckedChanged);
+            // 
             // selectColorBtn
             // 
-            this.selectColorBtn.Location = new System.Drawing.Point(89, 91);
+            this.selectColorBtn.Location = new System.Drawing.Point(92, 86);
             this.selectColorBtn.Margin = new System.Windows.Forms.Padding(0);
             this.selectColorBtn.Name = "selectColorBtn";
             this.selectColorBtn.Size = new System.Drawing.Size(30, 31);
@@ -393,7 +472,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(20, 48);
+            this.label2.Location = new System.Drawing.Point(15, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 25);
             this.label2.TabIndex = 0;
@@ -406,7 +485,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(407, 136);
+            this.label16.Location = new System.Drawing.Point(410, 132);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(80, 25);
             this.label16.TabIndex = 0;
@@ -419,7 +498,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label15.Location = new System.Drawing.Point(490, 50);
+            this.label15.Location = new System.Drawing.Point(493, 47);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(80, 25);
             this.label15.TabIndex = 0;
@@ -432,7 +511,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(490, 95);
+            this.label8.Location = new System.Drawing.Point(493, 90);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(145, 25);
             this.label8.TabIndex = 0;
@@ -444,7 +523,7 @@
             this.italicCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.italicCheckBox.AutoSize = true;
             this.italicCheckBox.Font = new System.Drawing.Font("新宋体", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.italicCheckBox.Location = new System.Drawing.Point(217, 176);
+            this.italicCheckBox.Location = new System.Drawing.Point(220, 219);
             this.italicCheckBox.Name = "italicCheckBox";
             this.italicCheckBox.Size = new System.Drawing.Size(53, 24);
             this.italicCheckBox.TabIndex = 6;
@@ -455,7 +534,7 @@
             // numericOutlevel
             // 
             this.numericOutlevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericOutlevel.Location = new System.Drawing.Point(370, 91);
+            this.numericOutlevel.Location = new System.Drawing.Point(373, 86);
             this.numericOutlevel.Maximum = new decimal(new int[] {
             10,
             0,
@@ -480,7 +559,7 @@
             // 
             this.fontsSelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.fontsSelComboBox.FormattingEnabled = true;
-            this.fontsSelComboBox.Location = new System.Drawing.Point(89, 44);
+            this.fontsSelComboBox.Location = new System.Drawing.Point(92, 41);
             this.fontsSelComboBox.Name = "fontsSelComboBox";
             this.fontsSelComboBox.Size = new System.Drawing.Size(158, 32);
             this.fontsSelComboBox.TabIndex = 2;
@@ -491,7 +570,7 @@
             this.firstLineIndentationCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.firstLineIndentationCheckBox.AutoSize = true;
             this.firstLineIndentationCheckBox.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.firstLineIndentationCheckBox.Location = new System.Drawing.Point(287, 172);
+            this.firstLineIndentationCheckBox.Location = new System.Drawing.Point(285, 216);
             this.firstLineIndentationCheckBox.Name = "firstLineIndentationCheckBox";
             this.firstLineIndentationCheckBox.Size = new System.Drawing.Size(110, 29);
             this.firstLineIndentationCheckBox.TabIndex = 6;
@@ -504,7 +583,7 @@
             this.boldCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.boldCheckBox.AutoSize = true;
             this.boldCheckBox.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.boldCheckBox.Location = new System.Drawing.Point(87, 173);
+            this.boldCheckBox.Location = new System.Drawing.Point(90, 216);
             this.boldCheckBox.Name = "boldCheckBox";
             this.boldCheckBox.Size = new System.Drawing.Size(47, 30);
             this.boldCheckBox.TabIndex = 6;
@@ -517,7 +596,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(20, 175);
+            this.label7.Location = new System.Drawing.Point(16, 218);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(69, 25);
             this.label7.TabIndex = 0;
@@ -528,7 +607,7 @@
             // 
             this.autoLineSpaceRadioBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.autoLineSpaceRadioBtn.AutoSize = true;
-            this.autoLineSpaceRadioBtn.Location = new System.Drawing.Point(87, 134);
+            this.autoLineSpaceRadioBtn.Location = new System.Drawing.Point(90, 130);
             this.autoLineSpaceRadioBtn.Name = "autoLineSpaceRadioBtn";
             this.autoLineSpaceRadioBtn.Size = new System.Drawing.Size(71, 29);
             this.autoLineSpaceRadioBtn.TabIndex = 7;
@@ -542,7 +621,7 @@
             this.underlineCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.underlineCheckBox.AutoSize = true;
             this.underlineCheckBox.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.underlineCheckBox.Location = new System.Drawing.Point(149, 172);
+            this.underlineCheckBox.Location = new System.Drawing.Point(152, 215);
             this.underlineCheckBox.Name = "underlineCheckBox";
             this.underlineCheckBox.Size = new System.Drawing.Size(48, 29);
             this.underlineCheckBox.TabIndex = 6;
@@ -555,7 +634,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(271, 93);
+            this.label6.Location = new System.Drawing.Point(274, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(107, 25);
             this.label6.TabIndex = 0;
@@ -566,7 +645,7 @@
             // 
             this.numericFontSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.numericFontSize.DecimalPlaces = 1;
-            this.numericFontSize.Location = new System.Drawing.Point(370, 44);
+            this.numericFontSize.Location = new System.Drawing.Point(373, 41);
             this.numericFontSize.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -581,7 +660,7 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(117, 94);
+            this.label11.Location = new System.Drawing.Point(120, 89);
             this.label11.Margin = new System.Windows.Forms.Padding(0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(24, 25);
@@ -593,7 +672,7 @@
             // 
             this.customLineSpaceRadioBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.customLineSpaceRadioBtn.AutoSize = true;
-            this.customLineSpaceRadioBtn.Location = new System.Drawing.Point(191, 134);
+            this.customLineSpaceRadioBtn.Location = new System.Drawing.Point(194, 130);
             this.customLineSpaceRadioBtn.Name = "customLineSpaceRadioBtn";
             this.customLineSpaceRadioBtn.Size = new System.Drawing.Size(90, 29);
             this.customLineSpaceRadioBtn.TabIndex = 8;
@@ -605,7 +684,7 @@
             // colorInputBox
             // 
             this.colorInputBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.colorInputBox.Location = new System.Drawing.Point(142, 91);
+            this.colorInputBox.Location = new System.Drawing.Point(145, 86);
             this.colorInputBox.Name = "colorInputBox";
             this.colorInputBox.Size = new System.Drawing.Size(105, 31);
             this.colorInputBox.TabIndex = 5;
@@ -616,7 +695,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(271, 46);
+            this.label3.Location = new System.Drawing.Point(274, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(107, 25);
             this.label3.TabIndex = 0;
@@ -627,7 +706,7 @@
             // 
             this.numericLineSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.numericLineSpacing.DecimalPlaces = 1;
-            this.numericLineSpacing.Location = new System.Drawing.Point(287, 134);
+            this.numericLineSpacing.Location = new System.Drawing.Point(290, 130);
             this.numericLineSpacing.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -643,7 +722,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(20, 93);
+            this.label5.Location = new System.Drawing.Point(15, 88);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 25);
             this.label5.TabIndex = 0;
@@ -655,7 +734,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(20, 134);
+            this.label4.Location = new System.Drawing.Point(15, 131);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 25);
             this.label4.TabIndex = 0;
@@ -668,7 +747,7 @@
             this.statementLabel.AutoSize = true;
             this.statementLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.statementLabel.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.statementLabel.Location = new System.Drawing.Point(215, 336);
+            this.statementLabel.Location = new System.Drawing.Point(215, 392);
             this.statementLabel.Name = "statementLabel";
             this.statementLabel.Size = new System.Drawing.Size(256, 20);
             this.statementLabel.TabIndex = 0;
@@ -689,13 +768,12 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.aboutBtn);
             this.Controls.Add(this.execuateBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Markdown转Word";
-            this.Load += new System.EventHandler(this.CompLoad);
+            this.Load += new System.EventHandler(this.LoadComponentData);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.SourceMdPath_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.SourceMdPath_DragEnter);
             this.panel1.ResumeLayout(false);
@@ -704,6 +782,8 @@
             this.groupBox1.PerformLayout();
             this.editingGroupBox.ResumeLayout(false);
             this.editingGroupBox.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericOutlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericFontSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericLineSpacing)).EndInit();
@@ -722,12 +802,11 @@
         private System.Windows.Forms.TextBox sourceMdPathInputBox;
         private System.Windows.Forms.CheckBox saveAtSameDirCheck;
         private System.Windows.Forms.Button helpBtn;
-        private System.Windows.Forms.Button aboutBtn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ListBox 空;
+        private System.Windows.Forms.ListBox styleListBox;
         private System.Windows.Forms.Button saveAsBtn;
         private System.Windows.Forms.Button resetBtn;
         private System.Windows.Forms.Label label1;
@@ -760,6 +839,13 @@
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.Button selectColorBtn;
         private System.Windows.Forms.CheckBox firstLineIndentationCheckBox;
+        private System.Windows.Forms.RadioButton bothAlignRadioBtn;
+        private System.Windows.Forms.RadioButton rightAlignRadioBtn;
+        private System.Windows.Forms.RadioButton centerAlignRadioBtn;
+        private System.Windows.Forms.RadioButton leftAlignRadioBtn;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.RadioButton distributeAlignRadioBtn;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

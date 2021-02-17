@@ -6,6 +6,7 @@ using System.Collections;
 using Md2Word.Models;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 /// <summary>
 /// 样式管理与生成
@@ -66,73 +67,90 @@ namespace Md2Word.Utility
         /// <summary>
         /// 根据传入的参数生成一个指定的样式实例并返回
         /// </summary>
-        /// <param name="styleName">样式名</param>
-        /// <param name="styleId">样式ID</param>
-        /// <param name="fontName">字体名</param>
-        /// <param name="fontSize">字号大小</param>
-        /// <param name="lineSpacing">行高</param>
-        /// <param name="colorHex">字体颜色</param>
-        /// <param name="outLineLvl">大纲级别</param>
-        /// <param name="isBold">是否加粗</param>
-        /// <param name="isItalic">是否斜体</param>
+        /// <param name="p">段落样式对象</param>
         /// <returns>一个按照上述要求生成的Style实例</returns>
-        public static Style GenerateParagraphStyle(ParagraphStyle p)
+        public static Style GenerateStyle(ParagraphStyle p)
         {
+            if (string.IsNullOrEmpty(p.StyleType))
+                return null;
+
             // 设置样式元数据
-            Style style = new Style() { Type = StyleValues.Paragraph, StyleId = p.StyleId };
-            StyleName styleName = new StyleName() { Val = p.StyleName };
+            Style style;
 
             // 段落样式 ---------------------------------------------
-            StyleParagraphProperties paragraphProperties = new StyleParagraphProperties();
-
-            // 行间距
-            // 行间距值 = 磅值*20
-            // 可设置的属性有：
-            // Before段前、After段后、Line行距、LineRule行距类型
-            // LineRule（枚举：单倍行距、固定值(取决于Line的值)、最小行距）
-            if (!string.IsNullOrEmpty(p.LineSpacing))
+            if (p.StyleType.Equals("paragraph"))
             {
-                string lineSpacingStr = Convert.ToString(Convert.ToDouble(p.LineSpacing) * 20);
-                SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
+                style = new Style() { Type = StyleValues.Paragraph, StyleId = p.StyleId };
+                StyleParagraphProperties paragraphProperties = new StyleParagraphProperties();
+
+                // 对齐方式
+                paragraphProperties.Append(new Justification()
                 {
-                    Line = lineSpacingStr,
-                    LineRule = LineSpacingRuleValues.Exact
-                };
-                paragraphProperties.Append(spacingBetweenLines1);
+                    Val = p.JustificationValues
+                });
+
+                // 行间距
+                // 行间距值 = 磅值 * 20
+                // 可设置的属性有：
+                // Before段前、After段后、Line行距、LineRule行距类型
+                // LineRule（枚举：单倍行距、固定值(取决于Line的值)、最小行距）
+                if (!string.IsNullOrEmpty(p.LineSpacing))
+                {
+                    string lineSpacingStr = Convert.ToString(Convert.ToDouble(p.LineSpacing) * 20);
+                    SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
+                    {
+                        Line = lineSpacingStr,
+                        LineRule = LineSpacingRuleValues.Exact
+                    };
+                    paragraphProperties.Append(spacingBetweenLines1);
+                }
+                else
+                {
+                    SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines()
+                    {
+                        LineRule = LineSpacingRuleValues.Auto
+                    };
+                    paragraphProperties.Append(spacingBetweenLines);
+                }
+
+                // 大纲级别。
+                // 从0开始，0代表1级，以此类推
+                // -1表示正文，则不添加
+                if (p.OutLineLvl != -1)
+                {
+                    Console.WriteLine(p.OutLineLvl);
+                    OutlineLevel outlineLevel = new OutlineLevel() { Val = p.OutLineLvl };
+                    SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines() { Before = "150", After = "150" };
+                    paragraphProperties.Append(spacingBetweenLines);
+                    paragraphProperties.Append(outlineLevel);
+                }
+
+                // 首行缩进
+                if (p.FirstLineIndentation)
+                {
+                    Indentation indentation = new Indentation()
+                    {
+                        // FirstLine = "420",
+                        FirstLineChars = 200 // 表示首行缩进两个字符
+                    };
+                    paragraphProperties.Append(indentation);
+                }
+                style.Append(paragraphProperties);
             }
+            else if (p.StyleType.Equals("character"))
+                style = new Style() { Type = StyleValues.Character, StyleId = p.StyleId };
             else
             {
-                SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines()
-                {
-                    LineRule = LineSpacingRuleValues.Auto
-                };
-                paragraphProperties.Append(spacingBetweenLines);
+                MessageBox.Show("预设文件存在错误！StyleType字段未定义的值：" + p.StyleType, "警告",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
             }
 
-            // 大纲级别。
-            // 从0开始，0代表1级，以此类推
-            // -1表示正文，则不添加
-            if (p.OutLineLvl != -1)
-            {
-                Console.WriteLine(p.OutLineLvl);
-                OutlineLevel outlineLevel = new OutlineLevel() { Val = p.OutLineLvl };
-                SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines() { Before = "150", After = "150" };
-                paragraphProperties.Append(spacingBetweenLines);
-                paragraphProperties.Append(outlineLevel);
-            }
+            StyleName styleName = new StyleName() { Val = p.StyleName };
 
-            // 首行缩进
-            if (p.FirstLineIndentation)
-            {
-                Indentation indentation = new Indentation()
-                {
-                    // FirstLine = "420",
-                    FirstLineChars = 200 // 表示首行缩进两个字符
-                };
-                paragraphProperties.Append(indentation);
-            }
-
-            // 字符样式 ---------------------------------------------
+            // ---------------------------------------------
+            // 字符样式 -------------------------------------
+            // ---------------------------------------------
             StyleRunProperties charProperties = new StyleRunProperties();
 
             // 字体
@@ -166,7 +184,6 @@ namespace Md2Word.Utility
 
             // 段落样式和字符设置完成 ---------------------------------
             style.Append(styleName);
-            style.Append(paragraphProperties);
             style.Append(charProperties);
             return style;
         }

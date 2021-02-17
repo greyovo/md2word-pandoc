@@ -8,6 +8,7 @@ namespace Md2Word.Models
 {
     public class ParagraphStyle
     {
+        public string StyleType { get; set; } // 样式类型：段落样式、字符样式、表格样式
         public string StyleName { get; set; }
         public string StyleId { get; set; }
         public string FontName { get; set; }
@@ -19,6 +20,7 @@ namespace Md2Word.Models
         public bool Italic { get; set; }
         public bool Underline { get; set; }
         public bool FirstLineIndentation { get; set; } // 首行缩进
+        public JustificationValues JustificationValues { get; set; } // 对齐方式，取值为枚举类型
 
         public ParagraphStyle()
         {
@@ -26,7 +28,7 @@ namespace Md2Word.Models
 
         public Style GetStyle()
         {
-            return StyleManager.GenerateParagraphStyle(this);
+            return StyleManager.GenerateStyle(this);
         }
 
         public override string ToString()
