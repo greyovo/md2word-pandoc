@@ -2,27 +2,19 @@
 
 ## 简介
 
-一个使用C#编写的、基于[Pandoc](https://github.com/jgm/pandoc)的markdown转换word工具。其本质是在Pandoc的基础上提供一个GUI界面，方便操作。是初学C#和Winform的作品，还在摸索阶段，有更好的思路、写法或找到了bug可以留issue，我都会看到并且回复的 :)
+一个使用C#编写的、基于[Pandoc](https://github.com/jgm/pandoc)的markdown转换word工具。其本质是在Pandoc的基础上提供一个GUI界面，方便操作。初学C#和Winform的作品，还在摸索阶段，有更好的思路或找到了bug可以留issue，我都会看到并且回复的 :)
 
 > 注意！本项目还在开发当中，并且要求系统安装Pandoc。已基本实现转换和样式保存导出功能，GUI界面还未完成，目前阶段的使用方法见 [现阶段使用方法](#现阶段使用方法)
 
 ## 为什么做这个
 
-在接触了markdown之后，越发觉得Word调节样式非常繁琐了。能用markdown写作的环境坚决不会使用Word，但无奈平时的实验报告又不得不上交Word版本，转了一圈也没有找到一个好用、转换效果好的markdown转word工具，也曾尝试使用一些在线文档编写平台进行转换，比如：
-
-- 石墨文档
-- Teambition Thought
-- 语雀文档
-- 为知笔记
-- ……
-
-转换的效果并不理想。而Pandoc默认的Word样式在中文状态下不美观，于是萌生了编写此工具的想法。
+在接触了markdown之后，越发觉得Word调节样式非常繁琐了，但无奈平时的实验报告又不得不上交Word版本，转了一圈也没有找到一个好用的markdown转word工具。而Pandoc默认的Word样式在中文状态下不美观，于是萌生了编写此工具的想法。
 
 ## 基本目标
 
 - [x] 由.md文件转换为一个排版样式尚可的Word文档。转换出的Word的字符、段落样式符合中文的书写和显示习惯（如段首缩进、行间距、字体的选择等）
-- [ ] 段落样式可供设置的内容：字号、字体、段落间距、颜色、（加粗、斜体、下划线？）
-- [ ] 提供可视化界面，样式可由用户方便地设置
+- [x] 段落样式可供设置的内容：字号、字体、段落间距、颜色、（加粗、斜体、下划线？）等
+- [x] 提供可视化界面，样式可由用户方便地设置
 - [x] 拖拽即可导入文件
 - [ ] 软件自带有若干个样式预设
 - [ ] 可以保存预设，可以导入、导出样式预设
@@ -76,11 +68,9 @@
 string path = @"C:\Users\59838\Desktop\test.docx";
 
 // 1.创建一个新的临时的docx
-Console.WriteLine("CreateWordprocessingDocument at " + path);
 CreateWordprocessingDocument(path);
 
 // 2.打开刚刚创建的新文档
-Console.WriteLine("GetStyleDefinitionsPart...");
 WordprocessingDocument wordDocument =
     WordprocessingDocument.Open(path, true);
 
@@ -88,11 +78,9 @@ WordprocessingDocument wordDocument =
 StyleDefinitionsPart part = GetStyleDefinitionsPart(wordDocument);
 
 // 4.根据要求生成样式Style实例
-Console.WriteLine("GenerateStyle...");
 Style style = GenerateStyle();
 
 // 5.将4中生成的实例，通过3获取的实例，添加到样式管理（文档的样式库）中
-Console.WriteLine("AddParagraphStyle...");
 AddParagraphStyle(part, style);
 
 // 6.将更改保存并关闭文件（重要）
@@ -101,21 +89,11 @@ wordDocument.Close();
 
 ## 有用的资料
 
-### Pandoc User's Guide 节选
+### Pandoc User's Guide
 
-**Pandoc转换时参考样式的依据是styleID属性，而不是style的名字**
+Pandoc转换时参考样式的依据是style的名字
 
- [完整的 Pandoc User's Guide](Pandoc User's Guide.html)
-
-`--reference-doc=`*FILE*
-
-Use the specified file as a style reference in producing a docx or ODT file.
-
-**Docx**
-
-For best results, the reference docx should be a modified version of a docx file produced using pandoc. The contents of the reference  docx are ignored, but its stylesheets and document properties (including margins, page size, header, and footer) are used in the new docx. If no reference docx is specified on the command line, pandoc will look for a file `reference.docx` in the user data directory (see `--data-dir`). If this is not found either, sensible defaults will be used.
-
-To produce a custom `reference.docx`, first get a copy of the default `reference.docx`: `pandoc -o custom-reference.docx --print-default-data-file reference.docx`. Then open `custom-reference.docx` in Word, modify the styles as you wish, and save the file. For best  results, do not make changes to this file other than modifying the  styles used by pandoc:
+[完整的 Pandoc User's Guide](https://pandoc.org/MANUAL.html#pandocs-markdown)
 
 #### 段落样式
 
@@ -166,7 +144,7 @@ To produce a custom `reference.docx`, first get a copy of the default `reference
 
 #### 表格样式
 
-- Table：未知设置方法
+- Table：待补充
 
 
 
@@ -181,24 +159,7 @@ To produce a custom `reference.docx`, first get a copy of the default `reference
 
 - 可选：OpenXMLSDKTool，用于查看Word文档中的各项内容
 
-![image-20210208155954767](C:/Users/59838/AppData/Roaming/Typora/typora-user-images/image-20210208155954767.png)
-
-
-
-### .NET 序列化、反序列化与XML
-
-```csharp
-// 1. 首先要创建或者得到一个数据对象
-MyObject obj = new MyObject();
-
-// 2. 用序列化的方法生成XML
-string xml = XmlHelper.XmlSerialize(obj, Encoding.UTF8);
-
-// 3. 从XML读取数据并生成对象
-MyObject obj2 = XmlHelper.XmlDeserialize<obj>(xml, Encoding.UTF8);
-```
-
-可以直接序列化数组，但不能直接序列化ArrayList
+![OpenXml SDK Tool](images/openxml_tools.png)
 
 
 
