@@ -1,5 +1,7 @@
 # MD2Word-Pandoc
 
+![screenshoot](images/screenshoot.jpg)
+
 一个使用C#编写的、基于[Pandoc](https://github.com/jgm/pandoc)的markdown转换word工具。其本质是在Pandoc的基础上提供一个GUI界面，方便操作。初学C#和Winform的作品，还在摸索阶段，有更好的思路或找到了bug可以留issue，我都会看到并且回复的 :)
 
 > 注意！本项目还在开发当中，并且要求系统安装Pandoc。已基本实现转换和样式保存导出功能，GUI界面还未完成，目前阶段的使用方法见 [使用方法](#使用方法)
