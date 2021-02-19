@@ -125,18 +125,34 @@ namespace Md2Word.Utility
                 if (p.OutLineLvl != -1)
                 {
                     paragraphProperties.Append(
-                         new SpacingBetweenLines() { Before = "150", After = "150" });
+                        new SpacingBetweenLines() { Before = "150", After = "150" });
                     paragraphProperties.Append(
                          new OutlineLevel() { Val = p.OutLineLvl });
                 }
+
+                if (p.StyleId.Equals("BodyText"))
+                paragraphProperties.Append(
+                       new SpacingBetweenLines() { Before = "150", After = "0" });
+
+               
 
                 // 首行缩进
                 if (p.FirstLineIndentation)
                 {
                     Indentation indentation = new Indentation()
                     {
-                        // FirstLine = "420",
+                        Left = "0",
+                        FirstLine = "480",
                         FirstLineChars = 200 // 表示首行缩进两个字符
+                    };
+                    paragraphProperties.Append(indentation);
+                }
+                else if (p.OutLineLvl == -1)
+                {
+                    Indentation indentation = new Indentation()
+                    {
+                        FirstLine = "0"
+                        // FirstLineChars = 200 // 表示首行缩进两个字符
                     };
                     paragraphProperties.Append(indentation);
                 }
@@ -193,6 +209,83 @@ namespace Md2Word.Utility
 
             return style;
         }
+
+
+        /// <summary>
+        /// 表格样式，默认启用
+        /// </summary>
+        /// <returns></returns>
+        public static Style GenerateTableStyle()
+        {
+            Style style1 = new Style() { Type = StyleValues.Table, StyleId = "Table" };
+            StyleName styleName1 = new StyleName() { Val = "Table" };
+            BasedOn basedOn1 = new BasedOn() { Val = "a1" };
+            UIPriority uIPriority1 = new UIPriority() { Val = 4 };
+
+            StyleTableProperties styleTableProperties1 = new StyleTableProperties();
+
+            TableBorders tableBorders1 = new TableBorders();
+            TopBorder topBorder1 = new TopBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+            LeftBorder leftBorder1 = new LeftBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+            BottomBorder bottomBorder1 = new BottomBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+            RightBorder rightBorder1 = new RightBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+            InsideHorizontalBorder insideHorizontalBorder1 = new InsideHorizontalBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+            InsideVerticalBorder insideVerticalBorder1 = new InsideVerticalBorder() { Val = BorderValues.Single, Color = "auto", Size = (UInt32Value)4U, Space = (UInt32Value)0U };
+
+            tableBorders1.Append(topBorder1);
+            tableBorders1.Append(leftBorder1);
+            tableBorders1.Append(bottomBorder1);
+            tableBorders1.Append(rightBorder1);
+            tableBorders1.Append(insideHorizontalBorder1);
+            tableBorders1.Append(insideVerticalBorder1);
+
+            styleTableProperties1.Append(tableBorders1);
+
+            // 居中对齐
+            TableJustification tableJustification1 = new TableJustification() { Val = TableRowAlignmentValues.Center };
+            styleTableProperties1.Append(tableJustification1);
+
+            style1.Append(styleName1);
+            style1.Append(basedOn1);
+            style1.Append(uIPriority1);
+            style1.Append(styleTableProperties1);
+            return style1;
+        }
+
+        public static Style GenerateTableBaseStyle()
+        {
+            Style style1 = new Style() { Type = StyleValues.Table, StyleId = "a1", Default = true };
+            StyleName styleName1 = new StyleName() { Val = "Normal Table" };
+            UIPriority uIPriority1 = new UIPriority() { Val = 99 };
+            SemiHidden semiHidden1 = new SemiHidden();
+            UnhideWhenUsed unhideWhenUsed1 = new UnhideWhenUsed();
+
+            StyleTableProperties styleTableProperties1 = new StyleTableProperties();
+            TableIndentation tableIndentation1 = new TableIndentation() { Width = 0, Type = TableWidthUnitValues.Dxa };
+
+            TableCellMarginDefault tableCellMarginDefault1 = new TableCellMarginDefault();
+            TopMargin topMargin1 = new TopMargin() { Width = "0", Type = TableWidthUnitValues.Dxa };
+            TableCellLeftMargin tableCellLeftMargin1 = new TableCellLeftMargin() { Width = 108, Type = TableWidthValues.Dxa };
+            BottomMargin bottomMargin1 = new BottomMargin() { Width = "0", Type = TableWidthUnitValues.Dxa };
+            TableCellRightMargin tableCellRightMargin1 = new TableCellRightMargin() { Width = 108, Type = TableWidthValues.Dxa };
+
+            tableCellMarginDefault1.Append(topMargin1);
+            tableCellMarginDefault1.Append(tableCellLeftMargin1);
+            tableCellMarginDefault1.Append(bottomMargin1);
+            tableCellMarginDefault1.Append(tableCellRightMargin1);
+
+            styleTableProperties1.Append(tableIndentation1);
+            styleTableProperties1.Append(tableCellMarginDefault1);
+
+            style1.Append(styleName1);
+            style1.Append(uIPriority1);
+            style1.Append(semiHidden1);
+            style1.Append(unhideWhenUsed1);
+            style1.Append(styleTableProperties1);
+            return style1;
+        }
+
+        
 
     }
 }

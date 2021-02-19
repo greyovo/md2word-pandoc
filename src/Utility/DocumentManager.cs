@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Md2Word.Models;
+using Md2Word.Utility;
 
 namespace Md2Word.Utility
 {
@@ -52,6 +53,10 @@ namespace Md2Word.Utility
             {
                 AddParagraphStyle(word, StyleManager.GenerateStyle(ps));
             }
+            AddParagraphStyle(word, StyleManager.GenerateTableStyle()); // 为表格增加外框线
+            AddParagraphStyle(word, StyleManager.GenerateTableBaseStyle()); // 表格样式基准
+            AddAbsNumberStyle(word, NumberingManager.GenerateBulletAbstractNum()); // 无序列表样式
+            AddAbsNumberStyle(word, NumberingManager.GenerateDecimalAbstractNum()); // 有序列表样式
 
             word.Close();
 
@@ -151,23 +156,31 @@ namespace Md2Word.Utility
             // If the Styles part does not exist, add it and then add the style.
             if (part == null)
             {
-                part = AddStylesPartToPackage(doc);
+                part = doc.MainDocumentPart.AddNewPart<StyleDefinitionsPart>();
+                Styles root = new Styles();
+                root.Save(part); ;
             }
             return part;
         }
 
-        /// <summary>
-        /// Add a StylesDefinitionsPart to the document. Returns a reference to it.
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <returns></returns>
-        private static StyleDefinitionsPart AddStylesPartToPackage(WordprocessingDocument doc)
+        public static void AddAbsNumberStyle(WordprocessingDocument word, AbstractNum abstractNum)
         {
-            StyleDefinitionsPart part;
-            part = doc.MainDocumentPart.AddNewPart<StyleDefinitionsPart>();
-            Styles root = new Styles();
-            root.Save(part);
-            return part;
+            // Access the root element of the numbering part.
+            Numbering numbering = GetNumberingDefinitionsPart(word).Numbering;
+            numbering.Append(abstractNum);
+        }
+
+
+        private static NumberingDefinitionsPart GetNumberingDefinitionsPart(WordprocessingDocument doc)
+        {
+            NumberingDefinitionsPart numPart = 
+                doc.MainDocumentPart.NumberingDefinitionsPart;
+            if (numPart == null)
+            {
+                numPart = doc.MainDocumentPart.AddNewPart<NumberingDefinitionsPart>();
+                numPart.Numbering = new Numbering();
+            }
+            return numPart;
         }
 
     }

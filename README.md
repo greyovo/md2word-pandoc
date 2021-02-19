@@ -91,7 +91,7 @@ wordDocument.Close();
 
 ## Pandoc User's Guide
 
-Pandoc转换时参考样式的依据是style的名字
+Pandoc转换时参考的样式，要求StyleName和StyleId两个属性共同满足其给出的模板中对应的样式名称和ID
 
 [完整的 Pandoc User's Guide](https://pandoc.org/MANUAL.html#pandocs-markdown)
 

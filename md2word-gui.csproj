@@ -54,6 +54,7 @@
     <Compile Include="src\Models\StyleGroup.cs" />
     <Compile Include="src\Utility\ColorUtil.cs" />
     <Compile Include="src\Utility\DocumentManager.cs" />
+    <Compile Include="src\Utility\NumberingManager.cs" />
     <Compile Include="src\Utility\StyleManager.cs" />
     <Compile Include="src\Utility\XMLManager.cs" />
     <Compile Include="src\Window\HelpWindow.cs">
