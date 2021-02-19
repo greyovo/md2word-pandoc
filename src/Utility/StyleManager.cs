@@ -74,55 +74,60 @@ namespace Md2Word.Utility
             if (string.IsNullOrEmpty(p.StyleType))
                 return null;
 
-            // 设置样式元数据
             Style style;
 
-            // 段落样式 ---------------------------------------------
+            // ---------------------------------------------
+            // 段落样式 -------------------------------------
+            // ---------------------------------------------
             if (p.StyleType.Equals("paragraph"))
             {
                 style = new Style() { Type = StyleValues.Paragraph, StyleId = p.StyleId };
                 StyleParagraphProperties paragraphProperties = new StyleParagraphProperties();
 
                 // 对齐方式
-                paragraphProperties.Append(new Justification()
-                {
-                    Val = p.JustificationValues
-                });
+                paragraphProperties.Append(new Justification() { Val = p.JustificationValues });
 
                 // 行间距
-                // 行间距值 = 磅值 * 20
-                // 可设置的属性有：
-                // Before段前、After段后、Line行距、LineRule行距类型
-                // LineRule（枚举：单倍行距、固定值(取决于Line的值)、最小行距）
-                if (!string.IsNullOrEmpty(p.LineSpacing))
+                // 可设置的属性有：Before段前、After段后、Line行距、LineRule行距类型
+                string lineSpacing;
+                // 注意要判断为0的情况。默认使用1.15倍行距；或固定值时，使用字体大小的磅数
+                Console.WriteLine(p.LineSpacing);
+                Console.WriteLine(p.LineSpacingRuleValues);
+                switch (p.LineSpacingRuleValues)
                 {
-                    string lineSpacingStr = Convert.ToString(Convert.ToDouble(p.LineSpacing) * 20);
-                    SpacingBetweenLines spacingBetweenLines1 = new SpacingBetweenLines()
-                    {
-                        Line = lineSpacingStr,
-                        LineRule = LineSpacingRuleValues.Exact
-                    };
-                    paragraphProperties.Append(spacingBetweenLines1);
+                    case LineSpacingRuleValues.Auto:
+                        p.LineSpacing = p.LineSpacing.Equals("0") ? "1.15" : p.LineSpacing;
+                        lineSpacing = Convert.ToString(
+                            Convert.ToDouble(p.LineSpacing) * 240 );
+                        break;
+                    case LineSpacingRuleValues.Exact:
+                        p.LineSpacing = p.LineSpacing.Equals("0") ? p.FontSize : p.LineSpacing;
+                        lineSpacing = Convert.ToString(
+                            Convert.ToDouble(p.LineSpacing) * 20);
+                        break;
+                    default:
+                        // 默认使用1.15倍行距
+                        lineSpacing = Convert.ToString(
+                            Convert.ToDouble(p.FontSize) * 1.15);
+                        break;
                 }
-                else
+
+                SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines()
                 {
-                    SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines()
-                    {
-                        LineRule = LineSpacingRuleValues.Auto
-                    };
-                    paragraphProperties.Append(spacingBetweenLines);
-                }
+                    Line = lineSpacing,
+                    LineRule = p.LineSpacingRuleValues
+                };
+                paragraphProperties.Append(spacingBetweenLines);
 
                 // 大纲级别。
                 // 从0开始，0代表1级，以此类推
                 // -1表示正文，则不添加
                 if (p.OutLineLvl != -1)
                 {
-                    Console.WriteLine(p.OutLineLvl);
-                    OutlineLevel outlineLevel = new OutlineLevel() { Val = p.OutLineLvl };
-                    SpacingBetweenLines spacingBetweenLines = new SpacingBetweenLines() { Before = "150", After = "150" };
-                    paragraphProperties.Append(spacingBetweenLines);
-                    paragraphProperties.Append(outlineLevel);
+                    paragraphProperties.Append(
+                         new SpacingBetweenLines() { Before = "150", After = "150" });
+                    paragraphProperties.Append(
+                         new OutlineLevel() { Val = p.OutLineLvl });
                 }
 
                 // 首行缩进
@@ -184,7 +189,9 @@ namespace Md2Word.Utility
 
             // 段落样式和字符设置完成 ---------------------------------
             style.Append(styleName);
+            style.Append(new PrimaryStyle());
             style.Append(charProperties);
+            style.Append(new UIPriority() { Val = 3 });
             return style;
         }
 

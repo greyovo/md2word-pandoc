@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.sourceMdPathInputBox = new System.Windows.Forms.TextBox();
@@ -73,21 +74,25 @@
             this.label6 = new System.Windows.Forms.Label();
             this.numericFontSize = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.customLineSpaceRadioBtn = new System.Windows.Forms.RadioButton();
+            this.exactLineSpaceRadioBtn = new System.Windows.Forms.RadioButton();
             this.colorInputBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericLineSpacing = new System.Windows.Forms.NumericUpDown();
+            this.numericAutoLineSpacing = new System.Windows.Forms.NumericUpDown();
+            this.numericExactLineSpacing = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.statementLabel = new System.Windows.Forms.Label();
+            this.openPresetDirBtn = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.autoLineSpacingTip = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.editingGroupBox.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericOutlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericFontSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLineSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericAutoLineSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericExactLineSpacing)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -153,9 +158,9 @@
             this.chooseFileBtn.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.chooseFileBtn.Image = global::Md2Word.Properties.Resources.opened_folder_20px;
             this.chooseFileBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chooseFileBtn.Location = new System.Drawing.Point(590, 16);
+            this.chooseFileBtn.Location = new System.Drawing.Point(590, 13);
             this.chooseFileBtn.Name = "chooseFileBtn";
-            this.chooseFileBtn.Size = new System.Drawing.Size(116, 31);
+            this.chooseFileBtn.Size = new System.Drawing.Size(116, 36);
             this.chooseFileBtn.TabIndex = 6;
             this.chooseFileBtn.Text = "浏览...";
             this.chooseFileBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -169,9 +174,9 @@
             this.helpBtn.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.helpBtn.Image = global::Md2Word.Properties.Resources.help_20px;
             this.helpBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.helpBtn.Location = new System.Drawing.Point(716, 16);
+            this.helpBtn.Location = new System.Drawing.Point(716, 13);
             this.helpBtn.Name = "helpBtn";
-            this.helpBtn.Size = new System.Drawing.Size(171, 31);
+            this.helpBtn.Size = new System.Drawing.Size(171, 36);
             this.helpBtn.TabIndex = 6;
             this.helpBtn.Text = "帮助/Help";
             this.helpBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -251,6 +256,7 @@
             // saveAsBtn
             // 
             this.saveAsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveAsBtn.Enabled = false;
             this.saveAsBtn.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.saveAsBtn.Image = global::Md2Word.Properties.Resources.save_as_20px;
             this.saveAsBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -259,13 +265,14 @@
             this.saveAsBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.saveAsBtn.Size = new System.Drawing.Size(128, 36);
             this.saveAsBtn.TabIndex = 6;
-            this.saveAsBtn.Text = "另存为...";
+            this.saveAsBtn.Text = "另存为";
             this.saveAsBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.saveAsBtn.UseVisualStyleBackColor = true;
             // 
             // resetBtn
             // 
             this.resetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetBtn.Enabled = false;
             this.resetBtn.Location = new System.Drawing.Point(18, 385);
             this.resetBtn.Name = "resetBtn";
             this.resetBtn.Size = new System.Drawing.Size(103, 36);
@@ -286,6 +293,7 @@
             // saveBtn
             // 
             this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveBtn.Enabled = false;
             this.saveBtn.Image = global::Md2Word.Properties.Resources.save_20px;
             this.saveBtn.Location = new System.Drawing.Point(745, 385);
             this.saveBtn.Name = "saveBtn";
@@ -300,9 +308,9 @@
             this.newPresetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.newPresetBtn.Image = global::Md2Word.Properties.Resources.add_20px;
             this.newPresetBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.newPresetBtn.Location = new System.Drawing.Point(778, 38);
+            this.newPresetBtn.Location = new System.Drawing.Point(587, 39);
             this.newPresetBtn.Name = "newPresetBtn";
-            this.newPresetBtn.Size = new System.Drawing.Size(103, 36);
+            this.newPresetBtn.Size = new System.Drawing.Size(116, 36);
             this.newPresetBtn.TabIndex = 6;
             this.newPresetBtn.Text = "新建";
             this.newPresetBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -315,7 +323,7 @@
             this.presetListCmbox.FormattingEnabled = true;
             this.presetListCmbox.Location = new System.Drawing.Point(170, 40);
             this.presetListCmbox.Name = "presetListCmbox";
-            this.presetListCmbox.Size = new System.Drawing.Size(598, 32);
+            this.presetListCmbox.Size = new System.Drawing.Size(411, 32);
             this.presetListCmbox.TabIndex = 8;
             this.presetListCmbox.SelectedIndexChanged += new System.EventHandler(this.PresetListCmbox_SelectedIndexChanged);
             // 
@@ -325,6 +333,7 @@
             this.groupBox1.Controls.Add(this.statementLabel);
             this.groupBox1.Controls.Add(this.styleListBox);
             this.groupBox1.Controls.Add(this.presetListCmbox);
+            this.groupBox1.Controls.Add(this.openPresetDirBtn);
             this.groupBox1.Controls.Add(this.newPresetBtn);
             this.groupBox1.Controls.Add(this.saveBtn);
             this.groupBox1.Controls.Add(this.label1);
@@ -357,10 +366,11 @@
             this.editingGroupBox.Controls.Add(this.label6);
             this.editingGroupBox.Controls.Add(this.numericFontSize);
             this.editingGroupBox.Controls.Add(this.label11);
-            this.editingGroupBox.Controls.Add(this.customLineSpaceRadioBtn);
+            this.editingGroupBox.Controls.Add(this.exactLineSpaceRadioBtn);
             this.editingGroupBox.Controls.Add(this.colorInputBox);
             this.editingGroupBox.Controls.Add(this.label3);
-            this.editingGroupBox.Controls.Add(this.numericLineSpacing);
+            this.editingGroupBox.Controls.Add(this.numericAutoLineSpacing);
+            this.editingGroupBox.Controls.Add(this.numericExactLineSpacing);
             this.editingGroupBox.Controls.Add(this.label5);
             this.editingGroupBox.Controls.Add(this.label4);
             this.editingGroupBox.Location = new System.Drawing.Point(219, 88);
@@ -485,11 +495,11 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label16.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label16.Location = new System.Drawing.Point(410, 132);
+            this.label16.Location = new System.Drawing.Point(495, 132);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(80, 25);
+            this.label16.Size = new System.Drawing.Size(137, 25);
             this.label16.TabIndex = 0;
-            this.label16.Text = "单位: 磅";
+            this.label16.Text = "0表示自动决定";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label15
@@ -511,11 +521,11 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label8.Location = new System.Drawing.Point(493, 90);
+            this.label8.Location = new System.Drawing.Point(493, 89);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(145, 25);
+            this.label8.Size = new System.Drawing.Size(107, 25);
             this.label8.TabIndex = 0;
-            this.label8.Text = "值为-1表示正文";
+            this.label8.Text = "-1表示正文";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // italicCheckBox
@@ -612,7 +622,7 @@
             this.autoLineSpaceRadioBtn.Size = new System.Drawing.Size(71, 29);
             this.autoLineSpaceRadioBtn.TabIndex = 7;
             this.autoLineSpaceRadioBtn.TabStop = true;
-            this.autoLineSpaceRadioBtn.Text = "自动";
+            this.autoLineSpaceRadioBtn.Text = "倍值";
             this.autoLineSpaceRadioBtn.UseVisualStyleBackColor = true;
             this.autoLineSpaceRadioBtn.CheckedChanged += new System.EventHandler(this.AutoLineSpaceRadioBtn_CheckedChanged);
             // 
@@ -668,18 +678,18 @@
             this.label11.Text = "#";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // customLineSpaceRadioBtn
+            // exactLineSpaceRadioBtn
             // 
-            this.customLineSpaceRadioBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.customLineSpaceRadioBtn.AutoSize = true;
-            this.customLineSpaceRadioBtn.Location = new System.Drawing.Point(194, 130);
-            this.customLineSpaceRadioBtn.Name = "customLineSpaceRadioBtn";
-            this.customLineSpaceRadioBtn.Size = new System.Drawing.Size(90, 29);
-            this.customLineSpaceRadioBtn.TabIndex = 8;
-            this.customLineSpaceRadioBtn.TabStop = true;
-            this.customLineSpaceRadioBtn.Text = "自定义";
-            this.customLineSpaceRadioBtn.UseVisualStyleBackColor = true;
-            this.customLineSpaceRadioBtn.CheckedChanged += new System.EventHandler(this.CustomLineSpaceRadioBtn_CheckedChanged);
+            this.exactLineSpaceRadioBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.exactLineSpaceRadioBtn.AutoSize = true;
+            this.exactLineSpaceRadioBtn.Location = new System.Drawing.Point(279, 130);
+            this.exactLineSpaceRadioBtn.Name = "exactLineSpaceRadioBtn";
+            this.exactLineSpaceRadioBtn.Size = new System.Drawing.Size(90, 29);
+            this.exactLineSpaceRadioBtn.TabIndex = 8;
+            this.exactLineSpaceRadioBtn.TabStop = true;
+            this.exactLineSpaceRadioBtn.Text = "固定值";
+            this.exactLineSpaceRadioBtn.UseVisualStyleBackColor = true;
+            this.exactLineSpaceRadioBtn.CheckedChanged += new System.EventHandler(this.ExactLineSpaceRadioBtn_CheckedChanged);
             // 
             // colorInputBox
             // 
@@ -702,20 +712,42 @@
             this.label3.Text = "字体大小：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numericLineSpacing
+            // numericAutoLineSpacing
             // 
-            this.numericLineSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericLineSpacing.DecimalPlaces = 1;
-            this.numericLineSpacing.Location = new System.Drawing.Point(290, 130);
-            this.numericLineSpacing.Maximum = new decimal(new int[] {
+            this.numericAutoLineSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericAutoLineSpacing.DecimalPlaces = 2;
+            this.numericAutoLineSpacing.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numericAutoLineSpacing.Location = new System.Drawing.Point(167, 130);
+            this.numericAutoLineSpacing.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericLineSpacing.Name = "numericLineSpacing";
-            this.numericLineSpacing.Size = new System.Drawing.Size(114, 31);
-            this.numericLineSpacing.TabIndex = 4;
-            this.numericLineSpacing.ValueChanged += new System.EventHandler(this.NumericLineSpacing_ValueChanged);
+            this.numericAutoLineSpacing.Name = "numericAutoLineSpacing";
+            this.numericAutoLineSpacing.Size = new System.Drawing.Size(83, 31);
+            this.numericAutoLineSpacing.TabIndex = 4;
+            this.numericAutoLineSpacing.ValueChanged += new System.EventHandler(this.NumericAutoLineSpacing_ValueChanged);
+            this.numericAutoLineSpacing.EnabledChanged += new System.EventHandler(this.NumericAutoLineSpacing_EnabledChanged);
+            // 
+            // numericExactLineSpacing
+            // 
+            this.numericExactLineSpacing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericExactLineSpacing.DecimalPlaces = 1;
+            this.numericExactLineSpacing.Location = new System.Drawing.Point(375, 130);
+            this.numericExactLineSpacing.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericExactLineSpacing.Name = "numericExactLineSpacing";
+            this.numericExactLineSpacing.Size = new System.Drawing.Size(114, 31);
+            this.numericExactLineSpacing.TabIndex = 4;
+            this.numericExactLineSpacing.ValueChanged += new System.EventHandler(this.NumericLineSpacing_ValueChanged);
+            this.numericExactLineSpacing.EnabledChanged += new System.EventHandler(this.NumericExactLineSpacing_EnabledChanged);
             // 
             // label5
             // 
@@ -754,6 +786,27 @@
             this.statementLabel.Text = "*在左侧选择样式，在右侧修改其内容";
             this.statementLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // openPresetDirBtn
+            // 
+            this.openPresetDirBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.openPresetDirBtn.Image = global::Md2Word.Properties.Resources.opened_folder_20px;
+            this.openPresetDirBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.openPresetDirBtn.Location = new System.Drawing.Point(713, 39);
+            this.openPresetDirBtn.Name = "openPresetDirBtn";
+            this.openPresetDirBtn.Size = new System.Drawing.Size(171, 36);
+            this.openPresetDirBtn.TabIndex = 6;
+            this.openPresetDirBtn.Text = "打开预设目录";
+            this.openPresetDirBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.openPresetDirBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.openPresetDirBtn.UseVisualStyleBackColor = true;
+            this.openPresetDirBtn.Click += new System.EventHandler(this.OpenPresetDirBtn_Click);
+            // 
+            // autoLineSpacingTip
+            // 
+            this.autoLineSpacingTip.AutoPopDelay = 10000;
+            this.autoLineSpacingTip.InitialDelay = 500;
+            this.autoLineSpacingTip.ReshowDelay = 100;
+            // 
             // MainWindow
             // 
             this.AllowDrop = true;
@@ -786,7 +839,8 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericOutlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericFontSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericLineSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericAutoLineSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericExactLineSpacing)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -820,7 +874,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericLineSpacing;
+        private System.Windows.Forms.NumericUpDown numericExactLineSpacing;
         private System.Windows.Forms.TextBox colorInputBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numericOutlevel;
@@ -832,7 +886,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.RadioButton autoLineSpaceRadioBtn;
-        private System.Windows.Forms.RadioButton customLineSpaceRadioBtn;
+        private System.Windows.Forms.RadioButton exactLineSpaceRadioBtn;
         private System.Windows.Forms.GroupBox editingGroupBox;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
@@ -846,6 +900,9 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.RadioButton distributeAlignRadioBtn;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.NumericUpDown numericAutoLineSpacing;
+        private System.Windows.Forms.ToolTip autoLineSpacingTip;
+        private System.Windows.Forms.Button openPresetDirBtn;
     }
 }
 

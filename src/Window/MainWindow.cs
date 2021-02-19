@@ -70,6 +70,7 @@ namespace Md2Word
                 styleListBox.Items.AddRange(curGroup.styles);
                 styleListBox.SelectedIndex = 0;
             }
+            autoLineSpacingTip.SetToolTip(autoLineSpaceRadioBtn, "设置n倍行距，如1倍、1.15倍和2倍行距等");
         }
 
         /// <summary>
@@ -178,7 +179,7 @@ namespace Md2Word
             editingGroupBox.Text = curStyle.StyleName;
             fontsSelComboBox.Text = curStyle.FontName;
             numericFontSize.Value = Convert.ToDecimal(curStyle.FontSize);
-            numericLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacing);
+            numericExactLineSpacing.Value = Convert.ToDecimal(curStyle.LineSpacing);
             numericOutlevel.Value = Convert.ToDecimal(curStyle.OutLineLvl);
             colorInputBox.Text = curStyle.ColorHex;
             selectColorBtn.ForeColor = ColorTranslator.FromHtml("#" + colorInputBox.Text);
@@ -186,9 +187,30 @@ namespace Md2Word
             italicCheckBox.Checked = curStyle.Italic;
             underlineCheckBox.Checked = curStyle.Underline;
             firstLineIndentationCheckBox.Checked = curStyle.FirstLineIndentation;
-            // TODO 行距自动与自定义的切换
-            autoLineSpaceRadioBtn.Checked = false;
-            customLineSpaceRadioBtn.Checked = true;
+            // fixme 行距自动与自定义的切换
+            switch (curStyle.LineSpacingRuleValues)
+            {
+                case LineSpacingRuleValues.Auto:
+                    autoLineSpaceRadioBtn.Checked = true;
+                    numericAutoLineSpacing.Value = 
+                        Convert.ToDecimal(curStyle.LineSpacing);
+                    numericExactLineSpacing.Value = 0;
+                    break;
+                case LineSpacingRuleValues.Exact:
+                    exactLineSpaceRadioBtn.Checked = true;
+                    numericExactLineSpacing.Value =
+                        Convert.ToDecimal(curStyle.LineSpacing);
+                    numericAutoLineSpacing.Value = 0;
+                    break;
+                default:
+                    // 默认使用1.15倍行距
+                    autoLineSpaceRadioBtn.Checked = true;
+                    numericAutoLineSpacing.Value = Convert.ToDecimal(1.15);
+                    numericExactLineSpacing.Value = 0;
+                    break;
+            }
+
+
             // 对齐方式
             switch (curStyle.JustificationValues)
             {
@@ -235,14 +257,44 @@ namespace Md2Word
             
         }
 
+        /// <summary>
+        /// 倍数行距
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AutoLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
-            numericLineSpacing.Enabled = false;
+            if (autoLineSpaceRadioBtn.Checked)
+            {
+                curStyle.LineSpacingRuleValues = LineSpacingRuleValues.Auto;
+                numericAutoLineSpacing.Enabled = true;
+                numericExactLineSpacing.Enabled = false;
+            }
         }
 
-        private void CustomLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
+        private void NumericAutoLineSpacing_ValueChanged(object sender, EventArgs e)
         {
-            numericLineSpacing.Enabled = true;
+            curStyle.LineSpacing = Convert.ToString(numericAutoLineSpacing.Value);
+        }
+
+        /// <summary>
+        /// 固定值行距
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExactLineSpaceRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (exactLineSpaceRadioBtn.Checked)
+            {
+                curStyle.LineSpacingRuleValues = LineSpacingRuleValues.Exact;
+                numericExactLineSpacing.Enabled = true;
+                numericAutoLineSpacing.Enabled = false;
+            }
+        }
+
+        private void NumericLineSpacing_ValueChanged(object sender, EventArgs e)
+        {
+            curStyle.LineSpacing = Convert.ToString(numericExactLineSpacing.Value);
         }
 
         private void FontsSelComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -260,10 +312,7 @@ namespace Md2Word
             curStyle.OutLineLvl = Convert.ToInt32(numericOutlevel.Value);
         }
 
-        private void NumericLineSpacing_ValueChanged(object sender, EventArgs e)
-        {
-            curStyle.LineSpacing = Convert.ToString(numericLineSpacing.Value);
-        }
+
 
         private void BoldCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -324,6 +373,29 @@ namespace Md2Word
                 helpWindow = new HelpWindow();
             }
             helpWindow.Show();
+        }
+
+        private void OpenPresetDirBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", presetDirPath);
+        }
+
+        private void NumericAutoLineSpacing_EnabledChanged(object sender, EventArgs e)
+        {
+            var self = (NumericUpDown)sender;
+            if (self.Value != 0)
+            {
+                curStyle.LineSpacing = Convert.ToString(self.Value);
+            }
+        }
+
+        private void NumericExactLineSpacing_EnabledChanged(object sender, EventArgs e)
+        {
+            var self = (NumericUpDown)sender;
+            if (self.Value != 0)
+            {
+                curStyle.LineSpacing = Convert.ToString(self.Value);
+            }
         }
     }
 }

@@ -1,16 +1,16 @@
 # MD2Word-Pandoc
 
-## 简介
-
 一个使用C#编写的、基于[Pandoc](https://github.com/jgm/pandoc)的markdown转换word工具。其本质是在Pandoc的基础上提供一个GUI界面，方便操作。初学C#和Winform的作品，还在摸索阶段，有更好的思路或找到了bug可以留issue，我都会看到并且回复的 :)
 
-> 注意！本项目还在开发当中，并且要求系统安装Pandoc。已基本实现转换和样式保存导出功能，GUI界面还未完成，目前阶段的使用方法见 [现阶段使用方法](#现阶段使用方法)
+> 注意！本项目还在开发当中，并且要求系统安装Pandoc。已基本实现转换和样式保存导出功能，GUI界面还未完成，目前阶段的使用方法见 [使用方法](#使用方法)
 
-## 为什么做这个
+# 为什么做这个
 
 在接触了markdown之后，越发觉得Word调节样式非常繁琐了，但无奈平时的实验报告又不得不上交Word版本，转了一圈也没有找到一个好用的markdown转word工具。而Pandoc默认的Word样式在中文状态下不美观，于是萌生了编写此工具的想法。
 
-## 基本目标
+# TODO
+
+## 基本
 
 - [x] 由.md文件转换为一个排版样式尚可的Word文档。转换出的Word的字符、段落样式符合中文的书写和显示习惯（如段首缩进、行间距、字体的选择等）
 - [x] 段落样式可供设置的内容：字号、字体、段落间距、颜色、（加粗、斜体、下划线？）等
@@ -26,7 +26,7 @@
 - [ ] 根据MD的大纲级别制作目录
 - [ ] 制作一个精简版的pandoc依赖，只需要其中的md转换docx的功能，从而简化软件体积
 
-## 现阶段使用方法
+# 使用方法
 
 注意，要求系统已安装[Pandoc](https://github.com/jgm/pandoc)。测试所用的版本为2.7.2，理论上更高版本也可行，但未测试。
 
@@ -40,7 +40,7 @@
 
 可对该xml文件进行修改，以满足自己的样式需求。转换出的docx文件将保存在与源md的同目录下。
 
-## 实现思路
+# 实现思路
 
 > 有更好的思路、方法可以留issue，我会看到的
 
@@ -62,7 +62,7 @@
 3. 使用JSON或XML保存样式预设，用于导入和导出分享、保存样式信息
 
 
-### 核心步骤
+## 核心步骤
 
 ```csharp
 string path = @"C:\Users\59838\Desktop\test.docx";
@@ -87,15 +87,15 @@ AddParagraphStyle(part, style);
 wordDocument.Close();
 ```
 
-## 有用的资料
+# 有用的资料
 
-### Pandoc User's Guide
+## Pandoc User's Guide
 
 Pandoc转换时参考样式的依据是style的名字
 
 [完整的 Pandoc User's Guide](https://pandoc.org/MANUAL.html#pandocs-markdown)
 
-#### 段落样式
+### 段落样式
 
 | 样式名          | 描述                                                         | 必须 |
 | --------------- | ------------------------------------------------------------ | ---- |
@@ -132,7 +132,7 @@ Pandoc转换时参考样式的依据是style的名字
 - Abstract：未知，可选
 - Bibliography：参考文献，可选，具体使用未知
 
-#### 字符样式
+### 字符样式
 
 | 样式名称               | 描述                       | 必须 |
 | ---------------------- | -------------------------- | ---- |
@@ -142,15 +142,13 @@ Pandoc转换时参考样式的依据是style的名字
 | Footnote Reference     | 脚注引用字体样式           | 否   |
 | Hyperlink              | 超链接字符样式             | 是   |
 
-#### 表格样式
+### 表格样式
 
 - Table：待补充
 
+## 所需依赖
 
-
-### 构建所需依赖
-
-- 必需：WindowsBase（.Net Framework自带）
+- 必需：WindowsBase（.NET Framework自带）
 
 - 必需：Open XML SDK 2.5 for Microsoft Office
   - 下载：https://www.microsoft.com/en-us/download/details.aspx?id=30425
@@ -163,18 +161,81 @@ Pandoc转换时参考样式的依据是style的名字
 
 
 
-### Microsoft 官方文档
+## Microsoft 官方文档
 
-- [主要] Office Open XML SDK 字处理 概述
-  https://docs.microsoft.com/zh-cn/office/open-xml/word-processing?view=openxml-2.8.1
-- ~~为 Office 创建 VSTO 外接程序 /  Word 解决方案 / Word 对象模型概述 / 处理文档~~
-  https://docs.microsoft.com/zh-cn/visualstudio/vsto/how-to-programmatically-open-existing-documents?view=vs-2019
+[主要] Office Open XML SDK 字处理 概述
 
+[https://docs.microsoft.com/zh-cn/office/open-xml/word-processing?view=openxml-2.8.1](https://docs.microsoft.com/zh-cn/office/open-xml/word-processing?view=openxml-2.8.1)
 
 
-### 字体大小转换
+
+## 设置值换算公式
+
+记录使用SDK操作Word时，一些取值的换算方式。一般而言，默认字体大小、行距大小的单位都是磅。
+
+### 行距
+
+| 行距倍数 | 设置值  |
+| -------- | ------- |
+| 1        | 240     |
+| 1.15     | 276     |
+| 1.5      | 360     |
+| 2        | 480     |
+| n        | 240 * n |
+
+
+
+```csharp
+new SpacingBetweenLines()
+{
+    Line = "276", // 此值表示设置了1.15倍行距
+    LineRule = LineSpacingRuleValues.Auto
+};
+```
+
+
+固定行距计算
+
+$$
+固定行距的设置值 = 磅值×20
+$$
+
+```csharp
+new SpacingBetweenLines()
+{
+    Line = "400", // 表示在固定值模式下设置了行距为20
+    LineRule = LineSpacingRuleValues.Exact
+};
+```
+
+
+### 字体大小
 
 Word中设置字号大小n磅，那么在代码层面的值是2n 。比如在Word中字号设置为14磅，那么代码中的值取14×2=28
+
+```csharp
+new FontSize() { Val = "28" } // 表示字体大小设置为了14磅
+```
+
+
+
+### 缩进
+
+首行缩进字符数
+$$
+FirstLineChars = 字符数×10
+$$
+
+```csharp
+new Indentation()
+{
+    FirstLineChars = 200 // 表示首行缩进两个字符
+};
+```
+
+
+
+
 
 | 字号 | 磅   |
 | ---- | ---- |
