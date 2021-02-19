@@ -62,15 +62,22 @@ namespace Md2Word
             StyleManager.LoadStylePreset(presetDirPath);
             presetListCmbox.Items.AddRange(StyleManager.PresetList.ToArray());
 
-            // 加载时预设不为空，默认加载第一个
-            if (StyleManager.PresetList.Count > 0)
+            try
             {
-                presetListCmbox.SelectedIndex = 0;
-                var curGroup = (StyleGroup)presetListCmbox.SelectedItem;
-                styleListBox.Items.AddRange(curGroup.styles);
-                styleListBox.SelectedIndex = 0;
+                // 加载时预设不为空，默认加载第一个
+                if (StyleManager.PresetList.Count > 0)
+                {
+                    presetListCmbox.SelectedIndex = 0;
+                    var curGroup = (StyleGroup)presetListCmbox.SelectedItem;
+                    styleListBox.Items.AddRange(curGroup.styles);
+                    styleListBox.SelectedIndex = 0;
+                }
+                autoLineSpacingTip.SetToolTip(autoLineSpaceRadioBtn, "设置n倍行距，如1倍、1.15倍和2倍行距等");
             }
-            autoLineSpacingTip.SetToolTip(autoLineSpaceRadioBtn, "设置n倍行距，如1倍、1.15倍和2倍行距等");
+            catch (Exception)
+            {
+                MessageBox.Show("预设文件异常！");
+            }
         }
 
         /// <summary>
@@ -194,19 +201,16 @@ namespace Md2Word
                     autoLineSpaceRadioBtn.Checked = true;
                     numericAutoLineSpacing.Value = 
                         Convert.ToDecimal(curStyle.LineSpacing);
-                    numericExactLineSpacing.Value = 0;
                     break;
                 case LineSpacingRuleValues.Exact:
                     exactLineSpaceRadioBtn.Checked = true;
                     numericExactLineSpacing.Value =
                         Convert.ToDecimal(curStyle.LineSpacing);
-                    numericAutoLineSpacing.Value = 0;
                     break;
                 default:
                     // 默认使用1.15倍行距
                     autoLineSpaceRadioBtn.Checked = true;
                     numericAutoLineSpacing.Value = Convert.ToDecimal(1.15);
-                    numericExactLineSpacing.Value = 0;
                     break;
             }
 
@@ -311,7 +315,6 @@ namespace Md2Word
         {
             curStyle.OutLineLvl = Convert.ToInt32(numericOutlevel.Value);
         }
-
 
 
         private void BoldCheckBox_CheckedChanged(object sender, EventArgs e)

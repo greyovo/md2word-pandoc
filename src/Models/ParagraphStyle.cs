@@ -38,7 +38,7 @@ namespace Md2Word.Models
             //string res = FontName + ", "+ FontSizeLb + "pt, #"+ ColorHex;
             //res += Bold ? ", 加粗" : "";
             //res += Italic ? ", 斜体" : "";
-            return Alias;
+            return string.IsNullOrEmpty(Alias) ? StyleName : Alias;
         }
 
     }

@@ -151,7 +151,9 @@ namespace Md2Word.Utility
                 return null;
             }
 
-            StyleName styleName = new StyleName() { Val = p.StyleName };
+            style.Append(new StyleName() { Val = p.StyleName });
+            style.Append(new PrimaryStyle());
+            style.Append(new UIPriority() { Val = 3 });
 
             // ---------------------------------------------
             // 字符样式 -------------------------------------
@@ -187,11 +189,8 @@ namespace Md2Word.Utility
             if (p.Underline)
                 charProperties.Append(new Underline() { Val = UnderlineValues.Single } );
 
-            // 段落样式和字符设置完成 ---------------------------------
-            style.Append(styleName);
-            style.Append(new PrimaryStyle());
             style.Append(charProperties);
-            style.Append(new UIPriority() { Val = 3 });
+
             return style;
         }
 

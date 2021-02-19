@@ -1,89 +1,207 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfParagraphStyle xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Heading 1</StyleName>
+        <Alias>一级标题</Alias>
         <StyleId>Heading1</StyleId>
         <FontName>黑体</FontName>
-        <FontSizeLb>14</FontSizeLb>
+        <FontSize>16</FontSize>
+        <LineSpacingRuleValues>Exact</LineSpacingRuleValues>
+        <LineSpacing>20</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>1</OutLineLvl>
         <Bold>true</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Heading 2</StyleName>
+        <Alias>二级标题</Alias>
         <StyleId>Heading2</StyleId>
         <FontName>黑体</FontName>
-        <FontSizeLb>12</FontSizeLb>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Exact</LineSpacingRuleValues>
+        <LineSpacing>20</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>2</OutLineLvl>
         <Bold>true</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Heading 3</StyleName>
+        <Alias>三级标题</Alias>
         <StyleId>Heading3</StyleId>
         <FontName>楷体</FontName>
-        <FontSizeLb>12</FontSizeLb>
-        <LineSpacingLb>18</LineSpacingLb>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Exact</LineSpacingRuleValues>
+        <LineSpacing>20</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>3</OutLineLvl>
         <Bold>true</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Heading 4</StyleName>
+        <Alias>四级标题</Alias>
         <StyleId>4</StyleId>
         <FontName>楷体</FontName>
-        <FontSizeLb>12</FontSizeLb>
-        <LineSpacingLb>20</LineSpacingLb>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Exact</LineSpacingRuleValues>
+        <LineSpacing>20</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>3</OutLineLvl>
         <Bold>false</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
-        <StyleName>FirstParagraph</StyleName>
-        <StyleId>FirstParagraph</StyleId>
-        <FontName>宋体</FontName>
-        <FontSizeLb>12</FontSizeLb>
-        <LineSpacingLb>20</LineSpacingLb>
-        <ColorHex>000000</ColorHex>
-        <OutLineLvl>-1</OutLineLvl>
-        <Bold>false</Bold>
-        <Italic>false</Italic>
-    </ParagraphStyle>
-    <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Body Text</StyleName>
+        <Alias>正文</Alias>
         <StyleId>BodyText</StyleId>
         <FontName>宋体</FontName>
-        <FontSizeLb>12</FontSizeLb>
-        <LineSpacingLb>20</LineSpacingLb>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>-1</OutLineLvl>
         <Bold>false</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>true</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Block Text</StyleName>
+        <Alias>引用块</Alias>
         <StyleId>a9</StyleId>
         <FontName>宋体</FontName>
-        <FontSizeLb>12</FontSizeLb>
-        <LineSpacingLb>20</LineSpacingLb>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>-1</OutLineLvl>
         <Bold>false</Bold>
         <Italic>true</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
     </ParagraphStyle>
     <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
         <StyleName>Source Code</StyleName>
+        <Alias>代码块</Alias>
         <StyleId>SourceCode</StyleId>
         <FontName>Consolas</FontName>
-        <FontSizeLb>11</FontSizeLb>
-        <LineSpacingLb>20</LineSpacingLb>
+        <FontSize>11</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
         <ColorHex>000000</ColorHex>
         <OutLineLvl>-1</OutLineLvl>
         <Bold>false</Bold>
         <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
+        <StyleName>First Paragraph</StyleName>
+        <Alias>段首行</Alias>
+        <StyleId>FirstParagraph</StyleId>
+        <FontName>宋体</FontName>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>true</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
+        <StyleName>Normal</StyleName>
+        <Alias>基准样式</Alias>
+        <StyleId>Normal</StyleId>
+        <FontName>宋体</FontName>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
+        <StyleName>Compact</StyleName>
+        <Alias>无序列表等</Alias>
+        <StyleId>Compact</StyleId>
+        <FontName>宋体</FontName>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleType>character</StyleType>
+        <StyleName>Hyper link</StyleName>
+        <Alias>超链接</Alias>
+        <StyleId>Hyperlink</StyleId>
+        <FontName>宋体</FontName>
+        <FontSize>12</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.15</LineSpacing>
+        <ColorHex>007acc</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+        <Underline>true</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Left</JustificationValues>
+    </ParagraphStyle>
+    <ParagraphStyle>
+        <StyleType>paragraph</StyleType>
+        <StyleName>Image Caption</StyleName>
+        <Alias>图片注解</Alias>
+        <StyleId>ImageCaption</StyleId>
+        <FontName>宋体</FontName>
+        <FontSize>10</FontSize>
+        <LineSpacingRuleValues>Auto</LineSpacingRuleValues>
+        <LineSpacing>1.5</LineSpacing>
+        <ColorHex>000000</ColorHex>
+        <OutLineLvl>-1</OutLineLvl>
+        <Bold>false</Bold>
+        <Italic>false</Italic>
+        <Underline>false</Underline>
+        <FirstLineIndentation>false</FirstLineIndentation>
+        <JustificationValues>Center</JustificationValues>
     </ParagraphStyle>
 </ArrayOfParagraphStyle>

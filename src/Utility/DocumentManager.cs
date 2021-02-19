@@ -12,7 +12,9 @@ namespace Md2Word.Utility
 {
     public class DocumentManager
     {
-        static string tempPath = @".\temp\ref.docx";
+        
+        static string curRunningDirPath = Environment.CurrentDirectory;
+        static string tempRefDocxPath = curRunningDirPath + @"\temp\ref.docx";
         static string pandocPath = @"pandoc";
 
         public static void Transform2Word (string sourcePath, string outputPath)
@@ -41,9 +43,10 @@ namespace Md2Word.Utility
             outputPath = sourcePath.Substring(0, sourcePath.LastIndexOf("\\"));
             outputPath += fileName + ".docx";
 
-            // 步骤1：新建样式模板docx
-            CreateNewDocument(tempPath);
-            WordprocessingDocument word = WordprocessingDocument.Open(tempPath, true);
+            // 步骤1：在源md文件下新建样式模板docx
+            // tempRefDocxPath = sourcePath.Substring(0, sourcePath.LastIndexOf("\\") + 1) + "pandoc-ref.docx";
+            CreateNewDocument(tempRefDocxPath);
+            WordprocessingDocument word = WordprocessingDocument.Open(tempRefDocxPath, true);
 
             foreach (ParagraphStyle ps in StyleManager.StyleList)
             {
@@ -52,22 +55,41 @@ namespace Md2Word.Utility
 
             word.Close();
 
-            string args = "-o " + outputPath + " " + sourcePath +
-                " --reference-doc=" + tempPath;
+            string cd = "cd " + sourcePath.Substring(0, sourcePath.LastIndexOf("\\"));
+            string args = "pandoc -o " + outputPath + " " + sourcePath +
+                " --reference-doc=" + tempRefDocxPath;
+            Console.WriteLine(cd);
+            Console.WriteLine(args);
 
             // 步骤2：调用pandoc
             using (Process pandoc = new Process())
             {
                 try
                 {
-                    pandoc.StartInfo.FileName = pandocPath;
-                    pandoc.StartInfo.Arguments = args;
+                    // 禁用操作系统外壳程序 
+                    pandoc.StartInfo.UseShellExecute = false; //此处必须为false否则引发异常
+                    pandoc.StartInfo.RedirectStandardOutput = true;    //输出开启
+                    pandoc.StartInfo.RedirectStandardInput = true;        //输入开启
+                    pandoc.StartInfo.CreateNoWindow = true;
+                    pandoc.StartInfo.FileName = "cmd.exe";
                     pandoc.Start();
+
+                    pandoc.StandardInput.AutoFlush = true;
+                    pandoc.StandardInput.WriteLine(cd);
+                    pandoc.StandardInput.WriteLine(args);
+                    pandoc.StandardInput.WriteLine("&exit");
+                    
+                    // pandoc.WaitForExit();
+                    MessageBox.Show("转换成功！");
                 }
-                catch (Exception)
+                catch (System.ComponentModel.Win32Exception)
                 {
                     // TODO 动态设置pandoc的安装目录
                     MessageBox.Show("未在'" + pandocPath + "'下找到Pandoc！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("未知错误!");
                 }
             }
         }
