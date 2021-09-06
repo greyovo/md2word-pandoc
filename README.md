@@ -6,13 +6,23 @@
 
 > 注意！本项目还在开发当中，并且要求系统安装 Pandoc。已基本实现转换和样式保存导出功能，GUI 界面还未完成，目前阶段的使用方法见 [使用方法](#使用方法)
 
-# 为什么做这个
+## 自助转换
+
+一般而言，我使用 [Typora](https://www.typora.io) 编写 Markdown，而 Typora 中自带有导出 HTML 格式的功能。如果对文档中的代码高亮没有要求，可以通过以下步骤进行转换为 Word 文件，效果也还不错。
+
+1. Typora 中：文件 - 导出 - HTML(without Styles)。
+   > 一定要选 without style，这样导出的就是纯净的 HTML 文件
+2. 打开 HTML 文件，全选，复制
+3. 新建 Word 文档，粘贴（保留源样式）。到这就基本完成了，目录大纲级别也会被保留
+4. 如果需要，可以修改样式，比如全选减小字号、更换字体、行距等等
+
+## 为什么做这个
 
 在接触了 markdown 之后，越发觉得 Word 调节样式非常繁琐了，但无奈平时的实验报告又不得不上交 Word 版本，转了一圈也没有找到一个好用的 markdown 转 word 工具。而 Pandoc 默认的 Word 样式在中文状态下不美观，于是萌生了编写此工具的想法。
 
-# TODO
+## 本项目功能
 
-## 基本
+### 基本
 
 - [x] 由.md 文件转换为一个排版样式尚可的 Word 文档。转换出的 Word 的字符、段落样式符合中文的书写和显示习惯（如段首缩进、行间距、字体的选择等）
 - [x] 段落样式可供设置的内容：字号、字体、段落间距、颜色、（加粗、斜体、下划线？）等
@@ -21,14 +31,14 @@
 - [ ] 软件自带有若干个样式预设
 - [ ] 可以保存预设，可以导入、导出样式预设
 
-## 更进一步
+### 更进一步
 
 - [ ] 读取 md 文件的 yaml 信息来进行自动样式设置
 - [ ] 提供论文排版模式，即在首页之前添加特定的封面、处理参考文献等
 - [ ] 根据 MD 的大纲级别制作目录
 - [ ] 制作一个精简版的 pandoc 依赖，只需要其中的 md 转换 docx 的功能，从而简化软件体积
 
-# 使用方法
+## 使用方法
 
 注意，要求系统已安装[Pandoc](https://github.com/jgm/pandoc)。测试所用的版本为 2.7.2，理论上更高版本也可行，但未测试。
 
@@ -42,7 +52,7 @@
 
 可对该 xml 文件进行修改，以满足自己的样式需求。
 
-# 实现思路
+## 实现思路
 
 > 有更好的思路、方法可以留 issue，我会看到的
 
@@ -63,7 +73,7 @@
 
 3. 使用 JSON 或 XML 保存样式预设，用于导入和导出分享、保存样式信息
 
-## 核心步骤
+### 核心步骤
 
 ```csharp
 string path = @"C:\Users\59838\Desktop\test.docx";
@@ -88,9 +98,9 @@ AddParagraphStyle(part, style);
 wordDocument.Close();
 ```
 
-# 有用的资料
+## 有用的资料
 
-## Pandoc User's Guide
+### Pandoc User's Guide
 
 Pandoc 转换时参考的样式，要求 StyleName 和 StyleId 两个属性共同满足其给出的模板中对应的样式名称和 ID
 
@@ -147,31 +157,31 @@ Pandoc 转换时参考的样式，要求 StyleName 和 StyleId 两个属性共�
 
 - Table：待补充
 
-## 所需依赖
+### 所需依赖
 
 - 必需：WindowsBase（.NET Framework 自带）
 
 - 必需：Open XML SDK 2.5 for Microsoft Office
 
-  - 下载：https://www.microsoft.com/en-us/download/details.aspx?id=30425
+  - 下载：<https://www.microsoft.com/en-us/download/details.aspx?id=30425>
 
-  - 在 VS 中引入：https://blog.csdn.net/CoingSun/article/details/105754924
+  - 在 VS 中引入：<https://blog.csdn.net/CoingSun/article/details/105754924>
 
 - 可选：OpenXMLSDKTool，用于查看 Word 文档中的各项内容
 
 ![OpenXml SDK Tool](images/openxml_tools.png)
 
-## Microsoft 官方文档
+### Microsoft 官方文档
 
 [主要] Office Open XML SDK 字处理 概述
 
 [https://docs.microsoft.com/zh-cn/office/open-xml/word-processing?view=openxml-2.8.1](https://docs.microsoft.com/zh-cn/office/open-xml/word-processing?view=openxml-2.8.1)
 
-## 设置值换算公式
+### 设置值换算公式
 
 记录使用 SDK 操作 Word 时，一些取值的换算方式。一般而言，默认字体大小、行距大小的单位都是磅。
 
-### 行距
+#### 行距
 
 | 行距倍数 | 设置值   |
 | -------- | -------- |
@@ -203,7 +213,7 @@ new SpacingBetweenLines()
 };
 ```
 
-### 字体大小
+##### 字体大小
 
 Word 中设置字号大小 n 磅，那么在代码层面的值是 2n 。比如在 Word 中字号设置为 14 磅，那么代码中的值取 14×2=28
 
@@ -211,7 +221,7 @@ Word 中设置字号大小 n 磅，那么在代码层面的值是 2n 。比如�
 new FontSize() { Val = "28" } // 表示字体大小设置为了14磅
 ```
 
-### 缩进
+##### 缩进
 
 首行缩进字符数
 
