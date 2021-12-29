@@ -1,8 +1,10 @@
-# 敬请留意
+# 敬请留意 / Attention
 
-本项目已不再更新。我正在使用 Python 重写本工具，更好地跨平台，更灵活地样式设置，**并且不依赖pandoc**。
+本项目已不再更新。请查看 [markdocx](https://github.com/greyovo/markdocx)，一个跨平台，**不依赖pandoc**，更灵活地设置样式的 md 转 word 工具。
 
-想要关注的朋友可以在 [置顶issue](https://github.com/greyovo/md2word-pandoc/issues/6 ) 中留言，有进展之后我会通知你~
+This repository is no longer updated. Please see [markdocx](https://github.com/greyovo/markdocx), a cross-platform, **pandoc-free** markdown to word tool with flexible style settings.
+
+---
 
 # MD2Word-Pandoc
 
